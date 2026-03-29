@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecureVote - Biometric Protected</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="header">
+    <div class="logo">🛡</div>
+    <div>
+        <h3>SecureVote</h3>
+        <span>BIOMETRIC PROTECTED</span>
+    </div>
+</div>
+
+<div class="clock" id="clock"></div>
+
+<div class="wrapper">
+
+    <div class="left">
+        <div class="warning">🚫 SAY NO TO VOTE TAMPERING</div>
+
+        <h1>
+            Your Vote.<br>
+            Your Voice.<br>
+            <span>Protected.</span>
+        </h1>
+
+        <p>
+            Secured with encrypted fingerprint verification stored in MongoDB.
+            No one can see, alter, or delete your vote.
+        </p>
+    </div>
+
+    <div class="login">
+
+        <div class="avatar">👤</div>
+
+        <h2>Voter Login</h2>
+        <p>Authenticate to access the secure voting portal</p>
+
+        <div class="input">
+            <label>VOTER ID</label>
+            <input type="text" id="userId" placeholder="Enter your Voter ID">
+        </div>
+
+        <div class="input">
+            <label>PASSWORD</label>
+            <input type="password" id="password" placeholder="Enter your password">
+        </div>
+
+        <button onclick="login()">Continue to Fingerprint →</button>
+
+        <p id="message" class="error-message"></p>
+
+    </div>
+
+</div>
+
+<div class="footer">
+⚠ TAMPERING IS A CRIMINAL OFFENSE | All activities monitored • Zero tolerance policy
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

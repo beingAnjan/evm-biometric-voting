@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Voting System - Voter Panel</title>
+
+<link rel="stylesheet" href="voterPanel.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+    <div class="logo-section">
+        <div class="logo">✓</div>
+
+        <div class="header-text">
+            <h1>Secure Voting System</h1>
+            <p id="voterName">Logged in as voter</p>
+        </div>
+    </div>
+
+    <button class="logout-btn" id="logoutBtn">Logout</button>
+</header>
+
+
+<div class="container">
+
+    <!-- CLOCK -->
+    <div class="utc-box-right">
+        <div class="utc-time-box">
+            <i class="clock-icon fa-regular fa-clock"></i>
+            <span id="utcTime"></span>
+        </div>
+    </div>
+
+
+    <!-- INFO -->
+    <div class="info-box">
+        <h2>Cast Your Vote</h2>
+        <p>Select one candidate below. You can only vote once.</p>
+    </div>
+
+
+    <!-- CANDIDATES GRID -->
+    <div class="grid" id="candidateGrid">
+
+        <!-- Candidates will be loaded dynamically here -->
+
+    </div>
+
+
+    <!-- VOTE BUTTON -->
+    <button class="vote-btn" id="voteBtn">Cast My Vote</button>
+
+</div>
+
+
+<script src="voterPanel.js"></script>
+
+</body>
+</html>

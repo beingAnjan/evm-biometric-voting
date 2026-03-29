@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel - EVM System</title>
+    <link rel="stylesheet" href="adminPanel.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>EVM Admin</h2>
+        <ul>
+            <li onclick="showSection('dashboard')">Dashboard</li>
+            <li onclick="showSection('constituency')">Constituencies</li>
+            <li onclick="showSection('reports')">Reports</li>
+            <li onclick="logout()">Logout</li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+
+        <div class="topbar">
+            <h2 id="pageTitle">Dashboard</h2>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div id="dashboardSection" class="section">
+
+            <div class="cards">
+                <div class="card">
+                    <h3>Total Votes</h3>
+                    <p id="totalVotes">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Turnout %</h3>
+                    <p id="turnout">0%</p>
+                </div>
+
+                <div class="card">
+                    <h3>Leading Party</h3>
+                    <p id="leadingParty">-</p>
+                </div>
+            </div>
+
+            <div class="welcomeBox">
+                <h3>Welcome Admin 👋</h3>
+                <p>This dashboard gives a complete overview of election statistics.</p>
+            </div>
+
+        </div>
+
+        <!-- CONSTITUENCIES -->
+        <div id="constituencySection" class="section" style="display:none;">
+
+            <h3>Select Location</h3>
+
+            <div class="filters">
+                <select id="districtSelect" onchange="loadConstituenciesDropdown()"></select>
+
+                <select id="constituencySelect" onchange="filterConstituency()"></select>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Constituency</th>
+                        <th>Total Votes</th>
+                        <th>Winner</th>
+                    </tr>
+                </thead>
+                <tbody id="constituencyTable"></tbody>
+            </table>
+
+        </div>
+
+        <!-- REPORTS -->
+        <div id="reportsSection" class="section" style="display:none;">
+
+            <h3>Reports & Analytics</h3>
+
+            <div class="card">
+                <h4>Top 5 Close Fights</h4>
+                <ul id="closeFights"></ul>
+            </div>
+
+            <div class="card">
+                <h4>Highest Turnout Constituency</h4>
+                <p id="highestTurnout">-</p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="adminPanel.js"></script>
+</body>
+</html>

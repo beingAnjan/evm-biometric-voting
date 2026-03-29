@@ -1,0 +1,97 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter', sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+}
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 40px;
+    background:white;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+.logo{
+    width:45px;
+    height:45px;
+    background:linear-gradient(135deg,#4f7cff,#6c63ff);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-weight:700;
+}
+
+.logout-btn{
+    padding:10px 18px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    background:white;
+    cursor:pointer;
+}
+
+.container{
+    max-width:1100px;
+    margin:40px auto;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:16px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.06);
+    cursor:pointer;
+    border:2px solid transparent;
+    position:relative;
+}
+
+.card.selected{
+    border:2px solid #2563eb;
+    background:#eef4ff;
+}
+
+.card.faded{
+    opacity:0.3;
+    pointer-events:none;
+}
+
+.selected-badge{
+    position:absolute;
+    top:15px;
+    right:15px;
+    background:#2563eb;
+    color:white;
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:13px;
+    display:none;
+}
+
+.card.selected .selected-badge{
+    display:block;
+}
+
+.vote-btn{
+    margin:40px auto 0;
+    display:block;
+    padding:15px 40px;
+    border:none;
+    border-radius:12px;
+    color:white;
+    background:linear-gradient(135deg,#4f7cff,#7c5cff);
+    cursor:pointer;
+}

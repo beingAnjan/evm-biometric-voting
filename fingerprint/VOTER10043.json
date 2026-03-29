@@ -1,0 +1,1832 @@
+[
+  {
+    "x": 1,
+    "y": 38,
+    "type": "ending"
+  },
+  {
+    "x": 2,
+    "y": 52,
+    "type": "bifurcation"
+  },
+  {
+    "x": 2,
+    "y": 53,
+    "type": "bifurcation"
+  },
+  {
+    "x": 2,
+    "y": 66,
+    "type": "bifurcation"
+  },
+  {
+    "x": 2,
+    "y": 125,
+    "type": "bifurcation"
+  },
+  {
+    "x": 2,
+    "y": 126,
+    "type": "bifurcation"
+  },
+  {
+    "x": 3,
+    "y": 20,
+    "type": "ending"
+  },
+  {
+    "x": 3,
+    "y": 29,
+    "type": "ending"
+  },
+  {
+    "x": 3,
+    "y": 36,
+    "type": "ending"
+  },
+  {
+    "x": 3,
+    "y": 66,
+    "type": "bifurcation"
+  },
+  {
+    "x": 3,
+    "y": 67,
+    "type": "bifurcation"
+  },
+  {
+    "x": 4,
+    "y": 30,
+    "type": "ending"
+  },
+  {
+    "x": 5,
+    "y": 26,
+    "type": "ending"
+  },
+  {
+    "x": 6,
+    "y": 158,
+    "type": "ending"
+  },
+  {
+    "x": 7,
+    "y": 89,
+    "type": "ending"
+  },
+  {
+    "x": 8,
+    "y": 37,
+    "type": "ending"
+  },
+  {
+    "x": 8,
+    "y": 98,
+    "type": "ending"
+  },
+  {
+    "x": 9,
+    "y": 30,
+    "type": "ending"
+  },
+  {
+    "x": 9,
+    "y": 57,
+    "type": "ending"
+  },
+  {
+    "x": 10,
+    "y": 16,
+    "type": "ending"
+  },
+  {
+    "x": 10,
+    "y": 51,
+    "type": "ending"
+  },
+  {
+    "x": 10,
+    "y": 55,
+    "type": "ending"
+  },
+  {
+    "x": 10,
+    "y": 60,
+    "type": "ending"
+  },
+  {
+    "x": 11,
+    "y": 25,
+    "type": "ending"
+  },
+  {
+    "x": 11,
+    "y": 80,
+    "type": "ending"
+  },
+  {
+    "x": 12,
+    "y": 15,
+    "type": "ending"
+  },
+  {
+    "x": 14,
+    "y": 46,
+    "type": "ending"
+  },
+  {
+    "x": 14,
+    "y": 86,
+    "type": "ending"
+  },
+  {
+    "x": 15,
+    "y": 118,
+    "type": "ending"
+  },
+  {
+    "x": 15,
+    "y": 121,
+    "type": "ending"
+  },
+  {
+    "x": 16,
+    "y": 41,
+    "type": "ending"
+  },
+  {
+    "x": 17,
+    "y": 13,
+    "type": "ending"
+  },
+  {
+    "x": 17,
+    "y": 68,
+    "type": "ending"
+  },
+  {
+    "x": 18,
+    "y": 61,
+    "type": "bifurcation"
+  },
+  {
+    "x": 18,
+    "y": 152,
+    "type": "ending"
+  },
+  {
+    "x": 19,
+    "y": 14,
+    "type": "ending"
+  },
+  {
+    "x": 19,
+    "y": 61,
+    "type": "bifurcation"
+  },
+  {
+    "x": 19,
+    "y": 62,
+    "type": "bifurcation"
+  },
+  {
+    "x": 19,
+    "y": 63,
+    "type": "ending"
+  },
+  {
+    "x": 20,
+    "y": 156,
+    "type": "ending"
+  },
+  {
+    "x": 21,
+    "y": 56,
+    "type": "ending"
+  },
+  {
+    "x": 22,
+    "y": 59,
+    "type": "ending"
+  },
+  {
+    "x": 23,
+    "y": 27,
+    "type": "ending"
+  },
+  {
+    "x": 24,
+    "y": 158,
+    "type": "ending"
+  },
+  {
+    "x": 26,
+    "y": 21,
+    "type": "ending"
+  },
+  {
+    "x": 26,
+    "y": 127,
+    "type": "ending"
+  },
+  {
+    "x": 26,
+    "y": 142,
+    "type": "ending"
+  },
+  {
+    "x": 26,
+    "y": 153,
+    "type": "ending"
+  },
+  {
+    "x": 28,
+    "y": 115,
+    "type": "ending"
+  },
+  {
+    "x": 29,
+    "y": 28,
+    "type": "ending"
+  },
+  {
+    "x": 29,
+    "y": 35,
+    "type": "ending"
+  },
+  {
+    "x": 30,
+    "y": 119,
+    "type": "ending"
+  },
+  {
+    "x": 30,
+    "y": 146,
+    "type": "ending"
+  },
+  {
+    "x": 31,
+    "y": 15,
+    "type": "ending"
+  },
+  {
+    "x": 31,
+    "y": 135,
+    "type": "ending"
+  },
+  {
+    "x": 33,
+    "y": 22,
+    "type": "ending"
+  },
+  {
+    "x": 34,
+    "y": 73,
+    "type": "ending"
+  },
+  {
+    "x": 34,
+    "y": 81,
+    "type": "ending"
+  },
+  {
+    "x": 34,
+    "y": 126,
+    "type": "ending"
+  },
+  {
+    "x": 34,
+    "y": 150,
+    "type": "ending"
+  },
+  {
+    "x": 35,
+    "y": 79,
+    "type": "ending"
+  },
+  {
+    "x": 35,
+    "y": 87,
+    "type": "ending"
+  },
+  {
+    "x": 35,
+    "y": 130,
+    "type": "ending"
+  },
+  {
+    "x": 36,
+    "y": 16,
+    "type": "ending"
+  },
+  {
+    "x": 37,
+    "y": 103,
+    "type": "ending"
+  },
+  {
+    "x": 38,
+    "y": 23,
+    "type": "ending"
+  },
+  {
+    "x": 38,
+    "y": 155,
+    "type": "ending"
+  },
+  {
+    "x": 39,
+    "y": 102,
+    "type": "bifurcation"
+  },
+  {
+    "x": 39,
+    "y": 103,
+    "type": "bifurcation"
+  },
+  {
+    "x": 39,
+    "y": 104,
+    "type": "bifurcation"
+  },
+  {
+    "x": 40,
+    "y": 8,
+    "type": "ending"
+  },
+  {
+    "x": 40,
+    "y": 12,
+    "type": "ending"
+  },
+  {
+    "x": 40,
+    "y": 17,
+    "type": "ending"
+  },
+  {
+    "x": 40,
+    "y": 55,
+    "type": "ending"
+  },
+  {
+    "x": 40,
+    "y": 58,
+    "type": "ending"
+  },
+  {
+    "x": 41,
+    "y": 19,
+    "type": "ending"
+  },
+  {
+    "x": 41,
+    "y": 63,
+    "type": "ending"
+  },
+  {
+    "x": 41,
+    "y": 158,
+    "type": "ending"
+  },
+  {
+    "x": 42,
+    "y": 51,
+    "type": "ending"
+  },
+  {
+    "x": 42,
+    "y": 85,
+    "type": "ending"
+  },
+  {
+    "x": 43,
+    "y": 90,
+    "type": "ending"
+  },
+  {
+    "x": 44,
+    "y": 28,
+    "type": "ending"
+  },
+  {
+    "x": 44,
+    "y": 130,
+    "type": "ending"
+  },
+  {
+    "x": 45,
+    "y": 152,
+    "type": "ending"
+  },
+  {
+    "x": 46,
+    "y": 135,
+    "type": "ending"
+  },
+  {
+    "x": 47,
+    "y": 73,
+    "type": "ending"
+  },
+  {
+    "x": 48,
+    "y": 60,
+    "type": "ending"
+  },
+  {
+    "x": 48,
+    "y": 67,
+    "type": "ending"
+  },
+  {
+    "x": 48,
+    "y": 158,
+    "type": "ending"
+  },
+  {
+    "x": 49,
+    "y": 12,
+    "type": "ending"
+  },
+  {
+    "x": 50,
+    "y": 154,
+    "type": "ending"
+  },
+  {
+    "x": 52,
+    "y": 24,
+    "type": "ending"
+  },
+  {
+    "x": 52,
+    "y": 77,
+    "type": "ending"
+  },
+  {
+    "x": 54,
+    "y": 71,
+    "type": "ending"
+  },
+  {
+    "x": 54,
+    "y": 104,
+    "type": "ending"
+  },
+  {
+    "x": 55,
+    "y": 52,
+    "type": "ending"
+  },
+  {
+    "x": 56,
+    "y": 47,
+    "type": "ending"
+  },
+  {
+    "x": 56,
+    "y": 150,
+    "type": "ending"
+  },
+  {
+    "x": 57,
+    "y": 9,
+    "type": "ending"
+  },
+  {
+    "x": 57,
+    "y": 109,
+    "type": "ending"
+  },
+  {
+    "x": 58,
+    "y": 3,
+    "type": "ending"
+  },
+  {
+    "x": 58,
+    "y": 88,
+    "type": "ending"
+  },
+  {
+    "x": 59,
+    "y": 24,
+    "type": "ending"
+  },
+  {
+    "x": 59,
+    "y": 76,
+    "type": "ending"
+  },
+  {
+    "x": 59,
+    "y": 82,
+    "type": "ending"
+  },
+  {
+    "x": 59,
+    "y": 83,
+    "type": "ending"
+  },
+  {
+    "x": 59,
+    "y": 95,
+    "type": "ending"
+  },
+  {
+    "x": 59,
+    "y": 150,
+    "type": "bifurcation"
+  },
+  {
+    "x": 59,
+    "y": 151,
+    "type": "bifurcation"
+  },
+  {
+    "x": 59,
+    "y": 152,
+    "type": "bifurcation"
+  },
+  {
+    "x": 60,
+    "y": 61,
+    "type": "ending"
+  },
+  {
+    "x": 61,
+    "y": 45,
+    "type": "ending"
+  },
+  {
+    "x": 61,
+    "y": 55,
+    "type": "ending"
+  },
+  {
+    "x": 61,
+    "y": 132,
+    "type": "ending"
+  },
+  {
+    "x": 61,
+    "y": 147,
+    "type": "bifurcation"
+  },
+  {
+    "x": 61,
+    "y": 148,
+    "type": "bifurcation"
+  },
+  {
+    "x": 62,
+    "y": 8,
+    "type": "ending"
+  },
+  {
+    "x": 62,
+    "y": 103,
+    "type": "ending"
+  },
+  {
+    "x": 62,
+    "y": 148,
+    "type": "bifurcation"
+  },
+  {
+    "x": 63,
+    "y": 9,
+    "type": "ending"
+  },
+  {
+    "x": 63,
+    "y": 48,
+    "type": "ending"
+  },
+  {
+    "x": 63,
+    "y": 148,
+    "type": "ending"
+  },
+  {
+    "x": 64,
+    "y": 112,
+    "type": "ending"
+  },
+  {
+    "x": 64,
+    "y": 133,
+    "type": "ending"
+  },
+  {
+    "x": 64,
+    "y": 142,
+    "type": "ending"
+  },
+  {
+    "x": 65,
+    "y": 32,
+    "type": "ending"
+  },
+  {
+    "x": 65,
+    "y": 61,
+    "type": "ending"
+  },
+  {
+    "x": 65,
+    "y": 154,
+    "type": "bifurcation"
+  },
+  {
+    "x": 65,
+    "y": 155,
+    "type": "bifurcation"
+  },
+  {
+    "x": 65,
+    "y": 156,
+    "type": "bifurcation"
+  },
+  {
+    "x": 66,
+    "y": 27,
+    "type": "ending"
+  },
+  {
+    "x": 66,
+    "y": 58,
+    "type": "ending"
+  },
+  {
+    "x": 66,
+    "y": 158,
+    "type": "ending"
+  },
+  {
+    "x": 67,
+    "y": 13,
+    "type": "ending"
+  },
+  {
+    "x": 67,
+    "y": 25,
+    "type": "ending"
+  },
+  {
+    "x": 68,
+    "y": 45,
+    "type": "ending"
+  },
+  {
+    "x": 68,
+    "y": 52,
+    "type": "ending"
+  },
+  {
+    "x": 68,
+    "y": 114,
+    "type": "ending"
+  },
+  {
+    "x": 68,
+    "y": 115,
+    "type": "ending"
+  },
+  {
+    "x": 68,
+    "y": 119,
+    "type": "ending"
+  },
+  {
+    "x": 69,
+    "y": 6,
+    "type": "ending"
+  },
+  {
+    "x": 69,
+    "y": 41,
+    "type": "ending"
+  },
+  {
+    "x": 70,
+    "y": 67,
+    "type": "bifurcation"
+  },
+  {
+    "x": 70,
+    "y": 68,
+    "type": "bifurcation"
+  },
+  {
+    "x": 70,
+    "y": 131,
+    "type": "ending"
+  },
+  {
+    "x": 71,
+    "y": 7,
+    "type": "ending"
+  },
+  {
+    "x": 71,
+    "y": 36,
+    "type": "ending"
+  },
+  {
+    "x": 71,
+    "y": 108,
+    "type": "ending"
+  },
+  {
+    "x": 71,
+    "y": 146,
+    "type": "ending"
+  },
+  {
+    "x": 72,
+    "y": 31,
+    "type": "ending"
+  },
+  {
+    "x": 72,
+    "y": 124,
+    "type": "ending"
+  },
+  {
+    "x": 72,
+    "y": 134,
+    "type": "ending"
+  },
+  {
+    "x": 73,
+    "y": 24,
+    "type": "ending"
+  },
+  {
+    "x": 73,
+    "y": 32,
+    "type": "ending"
+  },
+  {
+    "x": 73,
+    "y": 114,
+    "type": "ending"
+  },
+  {
+    "x": 74,
+    "y": 19,
+    "type": "ending"
+  },
+  {
+    "x": 74,
+    "y": 59,
+    "type": "ending"
+  },
+  {
+    "x": 76,
+    "y": 14,
+    "type": "ending"
+  },
+  {
+    "x": 76,
+    "y": 17,
+    "type": "ending"
+  },
+  {
+    "x": 76,
+    "y": 36,
+    "type": "ending"
+  },
+  {
+    "x": 76,
+    "y": 52,
+    "type": "ending"
+  },
+  {
+    "x": 77,
+    "y": 66,
+    "type": "ending"
+  },
+  {
+    "x": 77,
+    "y": 149,
+    "type": "ending"
+  },
+  {
+    "x": 78,
+    "y": 5,
+    "type": "ending"
+  },
+  {
+    "x": 78,
+    "y": 7,
+    "type": "ending"
+  },
+  {
+    "x": 78,
+    "y": 30,
+    "type": "ending"
+  },
+  {
+    "x": 78,
+    "y": 63,
+    "type": "ending"
+  },
+  {
+    "x": 79,
+    "y": 130,
+    "type": "ending"
+  },
+  {
+    "x": 80,
+    "y": 31,
+    "type": "ending"
+  },
+  {
+    "x": 81,
+    "y": 25,
+    "type": "ending"
+  },
+  {
+    "x": 81,
+    "y": 131,
+    "type": "ending"
+  },
+  {
+    "x": 82,
+    "y": 47,
+    "type": "ending"
+  },
+  {
+    "x": 82,
+    "y": 54,
+    "type": "ending"
+  },
+  {
+    "x": 82,
+    "y": 145,
+    "type": "ending"
+  },
+  {
+    "x": 83,
+    "y": 41,
+    "type": "ending"
+  },
+  {
+    "x": 84,
+    "y": 8,
+    "type": "ending"
+  },
+  {
+    "x": 84,
+    "y": 34,
+    "type": "ending"
+  },
+  {
+    "x": 84,
+    "y": 76,
+    "type": "ending"
+  },
+  {
+    "x": 84,
+    "y": 82,
+    "type": "ending"
+  },
+  {
+    "x": 84,
+    "y": 138,
+    "type": "bifurcation"
+  },
+  {
+    "x": 85,
+    "y": 61,
+    "type": "ending"
+  },
+  {
+    "x": 85,
+    "y": 138,
+    "type": "bifurcation"
+  },
+  {
+    "x": 87,
+    "y": 57,
+    "type": "ending"
+  },
+  {
+    "x": 87,
+    "y": 147,
+    "type": "ending"
+  },
+  {
+    "x": 89,
+    "y": 72,
+    "type": "ending"
+  },
+  {
+    "x": 89,
+    "y": 142,
+    "type": "ending"
+  },
+  {
+    "x": 90,
+    "y": 41,
+    "type": "ending"
+  },
+  {
+    "x": 90,
+    "y": 112,
+    "type": "ending"
+  },
+  {
+    "x": 91,
+    "y": 63,
+    "type": "ending"
+  },
+  {
+    "x": 91,
+    "y": 67,
+    "type": "ending"
+  },
+  {
+    "x": 91,
+    "y": 83,
+    "type": "ending"
+  },
+  {
+    "x": 91,
+    "y": 100,
+    "type": "ending"
+  },
+  {
+    "x": 91,
+    "y": 106,
+    "type": "ending"
+  },
+  {
+    "x": 91,
+    "y": 158,
+    "type": "ending"
+  },
+  {
+    "x": 92,
+    "y": 10,
+    "type": "ending"
+  },
+  {
+    "x": 92,
+    "y": 48,
+    "type": "ending"
+  },
+  {
+    "x": 92,
+    "y": 78,
+    "type": "ending"
+  },
+  {
+    "x": 93,
+    "y": 3,
+    "type": "ending"
+  },
+  {
+    "x": 93,
+    "y": 5,
+    "type": "ending"
+  },
+  {
+    "x": 94,
+    "y": 23,
+    "type": "ending"
+  },
+  {
+    "x": 95,
+    "y": 24,
+    "type": "bifurcation"
+  },
+  {
+    "x": 95,
+    "y": 25,
+    "type": "bifurcation"
+  },
+  {
+    "x": 95,
+    "y": 115,
+    "type": "ending"
+  },
+  {
+    "x": 95,
+    "y": 144,
+    "type": "ending"
+  },
+  {
+    "x": 96,
+    "y": 24,
+    "type": "bifurcation"
+  },
+  {
+    "x": 96,
+    "y": 55,
+    "type": "ending"
+  },
+  {
+    "x": 96,
+    "y": 69,
+    "type": "ending"
+  },
+  {
+    "x": 97,
+    "y": 15,
+    "type": "ending"
+  },
+  {
+    "x": 97,
+    "y": 42,
+    "type": "ending"
+  },
+  {
+    "x": 97,
+    "y": 139,
+    "type": "ending"
+  },
+  {
+    "x": 99,
+    "y": 9,
+    "type": "ending"
+  },
+  {
+    "x": 99,
+    "y": 36,
+    "type": "ending"
+  },
+  {
+    "x": 99,
+    "y": 64,
+    "type": "ending"
+  },
+  {
+    "x": 100,
+    "y": 21,
+    "type": "ending"
+  },
+  {
+    "x": 100,
+    "y": 144,
+    "type": "ending"
+  },
+  {
+    "x": 101,
+    "y": 46,
+    "type": "bifurcation"
+  },
+  {
+    "x": 101,
+    "y": 47,
+    "type": "bifurcation"
+  },
+  {
+    "x": 101,
+    "y": 48,
+    "type": "bifurcation"
+  },
+  {
+    "x": 101,
+    "y": 49,
+    "type": "ending"
+  },
+  {
+    "x": 101,
+    "y": 61,
+    "type": "ending"
+  },
+  {
+    "x": 101,
+    "y": 109,
+    "type": "bifurcation"
+  },
+  {
+    "x": 101,
+    "y": 110,
+    "type": "bifurcation"
+  },
+  {
+    "x": 101,
+    "y": 111,
+    "type": "bifurcation"
+  },
+  {
+    "x": 101,
+    "y": 141,
+    "type": "ending"
+  },
+  {
+    "x": 101,
+    "y": 151,
+    "type": "ending"
+  },
+  {
+    "x": 102,
+    "y": 56,
+    "type": "ending"
+  },
+  {
+    "x": 102,
+    "y": 158,
+    "type": "ending"
+  },
+  {
+    "x": 103,
+    "y": 28,
+    "type": "ending"
+  },
+  {
+    "x": 104,
+    "y": 11,
+    "type": "ending"
+  },
+  {
+    "x": 105,
+    "y": 52,
+    "type": "ending"
+  },
+  {
+    "x": 105,
+    "y": 66,
+    "type": "ending"
+  },
+  {
+    "x": 105,
+    "y": 95,
+    "type": "ending"
+  },
+  {
+    "x": 106,
+    "y": 6,
+    "type": "ending"
+  },
+  {
+    "x": 106,
+    "y": 53,
+    "type": "ending"
+  },
+  {
+    "x": 106,
+    "y": 93,
+    "type": "bifurcation"
+  },
+  {
+    "x": 106,
+    "y": 94,
+    "type": "bifurcation"
+  },
+  {
+    "x": 106,
+    "y": 113,
+    "type": "ending"
+  },
+  {
+    "x": 107,
+    "y": 23,
+    "type": "ending"
+  },
+  {
+    "x": 107,
+    "y": 36,
+    "type": "ending"
+  },
+  {
+    "x": 107,
+    "y": 49,
+    "type": "ending"
+  },
+  {
+    "x": 107,
+    "y": 93,
+    "type": "bifurcation"
+  },
+  {
+    "x": 107,
+    "y": 156,
+    "type": "bifurcation"
+  },
+  {
+    "x": 108,
+    "y": 8,
+    "type": "ending"
+  },
+  {
+    "x": 108,
+    "y": 92,
+    "type": "ending"
+  },
+  {
+    "x": 108,
+    "y": 106,
+    "type": "ending"
+  },
+  {
+    "x": 108,
+    "y": 128,
+    "type": "ending"
+  },
+  {
+    "x": 108,
+    "y": 151,
+    "type": "ending"
+  },
+  {
+    "x": 108,
+    "y": 155,
+    "type": "bifurcation"
+  },
+  {
+    "x": 108,
+    "y": 156,
+    "type": "bifurcation"
+  },
+  {
+    "x": 109,
+    "y": 18,
+    "type": "ending"
+  },
+  {
+    "x": 110,
+    "y": 5,
+    "type": "ending"
+  },
+  {
+    "x": 110,
+    "y": 32,
+    "type": "ending"
+  },
+  {
+    "x": 110,
+    "y": 115,
+    "type": "ending"
+  },
+  {
+    "x": 112,
+    "y": 42,
+    "type": "ending"
+  },
+  {
+    "x": 112,
+    "y": 53,
+    "type": "ending"
+  },
+  {
+    "x": 113,
+    "y": 14,
+    "type": "ending"
+  },
+  {
+    "x": 113,
+    "y": 63,
+    "type": "ending"
+  },
+  {
+    "x": 113,
+    "y": 77,
+    "type": "ending"
+  },
+  {
+    "x": 114,
+    "y": 38,
+    "type": "ending"
+  },
+  {
+    "x": 114,
+    "y": 133,
+    "type": "ending"
+  },
+  {
+    "x": 115,
+    "y": 50,
+    "type": "ending"
+  },
+  {
+    "x": 115,
+    "y": 73,
+    "type": "ending"
+  },
+  {
+    "x": 115,
+    "y": 86,
+    "type": "ending"
+  },
+  {
+    "x": 115,
+    "y": 108,
+    "type": "ending"
+  },
+  {
+    "x": 115,
+    "y": 152,
+    "type": "ending"
+  },
+  {
+    "x": 116,
+    "y": 130,
+    "type": "ending"
+  },
+  {
+    "x": 117,
+    "y": 129,
+    "type": "ending"
+  },
+  {
+    "x": 121,
+    "y": 54,
+    "type": "ending"
+  },
+  {
+    "x": 121,
+    "y": 130,
+    "type": "ending"
+  },
+  {
+    "x": 121,
+    "y": 146,
+    "type": "ending"
+  },
+  {
+    "x": 122,
+    "y": 61,
+    "type": "ending"
+  },
+  {
+    "x": 122,
+    "y": 86,
+    "type": "bifurcation"
+  },
+  {
+    "x": 122,
+    "y": 87,
+    "type": "bifurcation"
+  },
+  {
+    "x": 122,
+    "y": 123,
+    "type": "ending"
+  },
+  {
+    "x": 123,
+    "y": 87,
+    "type": "bifurcation"
+  },
+  {
+    "x": 124,
+    "y": 49,
+    "type": "ending"
+  },
+  {
+    "x": 124,
+    "y": 96,
+    "type": "ending"
+  },
+  {
+    "x": 125,
+    "y": 6,
+    "type": "ending"
+  },
+  {
+    "x": 125,
+    "y": 118,
+    "type": "ending"
+  },
+  {
+    "x": 125,
+    "y": 151,
+    "type": "ending"
+  },
+  {
+    "x": 126,
+    "y": 134,
+    "type": "ending"
+  },
+  {
+    "x": 127,
+    "y": 13,
+    "type": "ending"
+  },
+  {
+    "x": 127,
+    "y": 59,
+    "type": "ending"
+  },
+  {
+    "x": 127,
+    "y": 126,
+    "type": "ending"
+  },
+  {
+    "x": 127,
+    "y": 145,
+    "type": "ending"
+  },
+  {
+    "x": 129,
+    "y": 92,
+    "type": "ending"
+  },
+  {
+    "x": 129,
+    "y": 118,
+    "type": "ending"
+  },
+  {
+    "x": 129,
+    "y": 156,
+    "type": "ending"
+  },
+  {
+    "x": 130,
+    "y": 66,
+    "type": "ending"
+  },
+  {
+    "x": 131,
+    "y": 131,
+    "type": "ending"
+  },
+  {
+    "x": 131,
+    "y": 149,
+    "type": "ending"
+  },
+  {
+    "x": 132,
+    "y": 64,
+    "type": "ending"
+  },
+  {
+    "x": 133,
+    "y": 89,
+    "type": "ending"
+  },
+  {
+    "x": 133,
+    "y": 90,
+    "type": "ending"
+  },
+  {
+    "x": 133,
+    "y": 97,
+    "type": "ending"
+  },
+  {
+    "x": 133,
+    "y": 150,
+    "type": "bifurcation"
+  },
+  {
+    "x": 134,
+    "y": 6,
+    "type": "ending"
+  },
+  {
+    "x": 134,
+    "y": 150,
+    "type": "bifurcation"
+  },
+  {
+    "x": 134,
+    "y": 151,
+    "type": "bifurcation"
+  },
+  {
+    "x": 135,
+    "y": 115,
+    "type": "ending"
+  },
+  {
+    "x": 136,
+    "y": 143,
+    "type": "ending"
+  },
+  {
+    "x": 137,
+    "y": 148,
+    "type": "ending"
+  },
+  {
+    "x": 138,
+    "y": 14,
+    "type": "ending"
+  },
+  {
+    "x": 138,
+    "y": 85,
+    "type": "ending"
+  },
+  {
+    "x": 138,
+    "y": 93,
+    "type": "ending"
+  },
+  {
+    "x": 138,
+    "y": 109,
+    "type": "ending"
+  },
+  {
+    "x": 138,
+    "y": 153,
+    "type": "ending"
+  },
+  {
+    "x": 139,
+    "y": 28,
+    "type": "ending"
+  },
+  {
+    "x": 140,
+    "y": 5,
+    "type": "ending"
+  },
+  {
+    "x": 140,
+    "y": 53,
+    "type": "ending"
+  },
+  {
+    "x": 140,
+    "y": 148,
+    "type": "ending"
+  },
+  {
+    "x": 140,
+    "y": 158,
+    "type": "ending"
+  },
+  {
+    "x": 141,
+    "y": 7,
+    "type": "ending"
+  },
+  {
+    "x": 141,
+    "y": 21,
+    "type": "ending"
+  },
+  {
+    "x": 141,
+    "y": 49,
+    "type": "ending"
+  },
+  {
+    "x": 141,
+    "y": 73,
+    "type": "ending"
+  },
+  {
+    "x": 141,
+    "y": 158,
+    "type": "ending"
+  },
+  {
+    "x": 142,
+    "y": 99,
+    "type": "ending"
+  },
+  {
+    "x": 143,
+    "y": 13,
+    "type": "ending"
+  },
+  {
+    "x": 143,
+    "y": 70,
+    "type": "ending"
+  },
+  {
+    "x": 143,
+    "y": 79,
+    "type": "ending"
+  },
+  {
+    "x": 145,
+    "y": 157,
+    "type": "ending"
+  },
+  {
+    "x": 146,
+    "y": 1,
+    "type": "ending"
+  },
+  {
+    "x": 146,
+    "y": 155,
+    "type": "bifurcation"
+  },
+  {
+    "x": 146,
+    "y": 156,
+    "type": "bifurcation"
+  },
+  {
+    "x": 147,
+    "y": 42,
+    "type": "ending"
+  },
+  {
+    "x": 147,
+    "y": 56,
+    "type": "ending"
+  },
+  {
+    "x": 147,
+    "y": 98,
+    "type": "ending"
+  },
+  {
+    "x": 147,
+    "y": 156,
+    "type": "bifurcation"
+  },
+  {
+    "x": 149,
+    "y": 38,
+    "type": "ending"
+  },
+  {
+    "x": 150,
+    "y": 3,
+    "type": "ending"
+  },
+  {
+    "x": 150,
+    "y": 10,
+    "type": "ending"
+  },
+  {
+    "x": 150,
+    "y": 75,
+    "type": "ending"
+  },
+  {
+    "x": 150,
+    "y": 117,
+    "type": "ending"
+  },
+  {
+    "x": 150,
+    "y": 123,
+    "type": "bifurcation"
+  },
+  {
+    "x": 150,
+    "y": 124,
+    "type": "bifurcation"
+  },
+  {
+    "x": 150,
+    "y": 125,
+    "type": "bifurcation"
+  },
+  {
+    "x": 151,
+    "y": 21,
+    "type": "bifurcation"
+  },
+  {
+    "x": 151,
+    "y": 22,
+    "type": "bifurcation"
+  },
+  {
+    "x": 151,
+    "y": 51,
+    "type": "ending"
+  },
+  {
+    "x": 151,
+    "y": 78,
+    "type": "ending"
+  },
+  {
+    "x": 151,
+    "y": 127,
+    "type": "ending"
+  },
+  {
+    "x": 152,
+    "y": 90,
+    "type": "ending"
+  },
+  {
+    "x": 152,
+    "y": 139,
+    "type": "ending"
+  },
+  {
+    "x": 153,
+    "y": 79,
+    "type": "bifurcation"
+  },
+  {
+    "x": 155,
+    "y": 3,
+    "type": "ending"
+  },
+  {
+    "x": 156,
+    "y": 119,
+    "type": "ending"
+  },
+  {
+    "x": 156,
+    "y": 120,
+    "type": "bifurcation"
+  },
+  {
+    "x": 156,
+    "y": 121,
+    "type": "bifurcation"
+  },
+  {
+    "x": 156,
+    "y": 122,
+    "type": "bifurcation"
+  },
+  {
+    "x": 157,
+    "y": 89,
+    "type": "ending"
+  },
+  {
+    "x": 157,
+    "y": 106,
+    "type": "ending"
+  },
+  {
+    "x": 157,
+    "y": 114,
+    "type": "ending"
+  },
+  {
+    "x": 157,
+    "y": 131,
+    "type": "ending"
+  },
+  {
+    "x": 157,
+    "y": 137,
+    "type": "ending"
+  },
+  {
+    "x": 157,
+    "y": 142,
+    "type": "ending"
+  },
+  {
+    "x": 158,
+    "y": 8,
+    "type": "ending"
+  },
+  {
+    "x": 158,
+    "y": 41,
+    "type": "ending"
+  },
+  {
+    "x": 158,
+    "y": 50,
+    "type": "ending"
+  },
+  {
+    "x": 158,
+    "y": 62,
+    "type": "ending"
+  },
+  {
+    "x": 158,
+    "y": 71,
+    "type": "ending"
+  },
+  {
+    "x": 158,
+    "y": 85,
+    "type": "ending"
+  },
+  {
+    "x": 158,
+    "y": 95,
+    "type": "ending"
+  },
+  {
+    "x": 158,
+    "y": 124,
+    "type": "ending"
+  },
+  {
+    "x": 158,
+    "y": 148,
+    "type": "ending"
+  },
+  {
+    "x": 158,
+    "y": 150,
+    "type": "ending"
+  }
+]
