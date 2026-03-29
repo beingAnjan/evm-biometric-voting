@@ -2,9 +2,21 @@ import os
 from flask import Flask, request, jsonify, send_from_directory
 from datetime import datetime
 
-#from db import voters_col, admins_col, candidates_col, votes_col
+from pymongo import MongoClient
 
+MONGO_URI = os.environ.get("MONGO_URI")
 
+if not MONGO_URI:
+    raise Exception("MONGO_URI not found in environment variables")
+
+client = MongoClient(MONGO_URI)
+
+db = client["evm_voting_db"]
+
+voters_col = db["voters"]
+admins_col = db["admins"]
+candidates_col = db["candidates"]
+votes_col = db["votes"]
 # Tell Flask to use the "public" folder
 app = Flask(
     __name__,
@@ -108,7 +120,7 @@ def cast_vote():
     voter_name = data.get("voterName")
     candidate_id = data.get("candidateId")
 
-    voter = voters_col.find_one({"name": voter_name})
+    voter = voters_col.find_one({"voterId": data.get("voterId")})
 
     if not voter:
         return jsonify({"message": "Voter not found"}), 404
