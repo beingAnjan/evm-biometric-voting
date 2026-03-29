@@ -2,7 +2,7 @@ import os
 from flask import Flask, request, jsonify, send_from_directory
 from datetime import datetime
 
-from db import voters_col, admins_col, candidates_col, votes_col
+#from db import voters_col, admins_col, candidates_col, votes_col
 
 
 # Tell Flask to use the "public" folder
@@ -12,6 +12,9 @@ app = Flask(
     static_url_path=""
 )
 
+@app.route("/test")
+def test():
+    return "Server is running successfully!"
 
 # ---------------- HOME PAGE ----------------
 @app.route("/")
@@ -187,9 +190,7 @@ def get_results():
 
 # ---------------- RUN SERVER ----------------
 if __name__ == "__main__":
-    import os
-
     print("Flask server starting...")
 
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    port = int(os.environ.get("PORT", 10000))  # use 10000 fallback
+    app.run(host="0.0.0.0", port=port, debug=False)
