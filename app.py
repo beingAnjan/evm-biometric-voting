@@ -120,7 +120,7 @@ def cast_vote():
     voter_name = data.get("voterName")
     candidate_id = data.get("candidateId")
 
-    voter = voters_col.find_one({"voterId": data.get("voterId")})
+    voter = voters_col.find_one({"name": voter_name})
 
     if not voter:
         return jsonify({"message": "Voter not found"}), 404
