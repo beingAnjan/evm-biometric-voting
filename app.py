@@ -125,7 +125,7 @@ def cast_vote():
     if not voter:
         return jsonify({"message": "Voter not found"}), 404
 
-    if voter["hasVoted"]:
+    if voter.get("hasVoted"):
         return jsonify({"message": "You have already voted"}), 400
 
     vote_record = {
