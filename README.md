@@ -1,4 +1,4 @@
-# 🗳️ Biometric-Based Access Control for EVMs using Blockchain
+# Biometric-Based Access Control for EVMs using Blockchain
 
 ## 📌 Project Overview
 
