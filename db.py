@@ -11,8 +11,16 @@ if not MONGO_URI:
 
 client = MongoClient(
     MONGO_URI,
-    server_api=ServerApi('1')
+    server_api=ServerApi("1")
 )
+
+# Verify the connection
+try:
+    client.admin.command("ping")
+    print("✅ Connected to MongoDB Atlas")
+except Exception as e:
+    print("❌ MongoDB connection failed:", e)
+    raise
 
 db = client["evm_voting_db"]
 
@@ -21,5 +29,5 @@ admins_col = db["admins"]
 candidates_col = db["candidates"]
 votes_col = db["votes"]
 
-# Comment this out for now
-# print("Collections:", db.list_collection_names())
+print("Database:", db.name)
+print("Collections:", db.list_collection_names())
