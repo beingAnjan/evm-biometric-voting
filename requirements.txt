@@ -3,3 +3,6 @@ pymongo
 bcrypt
 cryptography
 gunicorn
+opencv-python-headless
+numpy
+Pillow
