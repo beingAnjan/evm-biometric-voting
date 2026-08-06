@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <style>
+            .borderNN{
+                border: 2px;
+                border-color: bisque;
+                border-style: solid;
+            }
+        </style>
+    </head>
+    <body>
+        <p>Anjan Kumar <a href="page.html" target="_blank">COntact For more</a></p>
+        <table border="1">
+            <tr>
+                <th>Name</th>
+            </tr>
+            <tr>
+                <td>Anjan</td>
+            </tr>
+        </table>
+        
+
+        <table border="1">
+        <tr>
+            <th colspan="2">Header</th>
+        </tr>
+        <tr>
+            <td>A</td>
+            <td>B</td>
+        </tr>
+        </table>
+
+
+        <ol>
+            <li>Anjan</li>
+            <li>RAhul</li>
+        </ol>
+        <ul type="square">
+            <li>Anjan</li>
+            <li>RAhul</li>
+        </ul>
+    <div style="border: 2px;""border-type:solid;">
+        <form onsubmit="submitForm()">  
+            <label for="nameId">Name:</label>
+            <input type="text" id="nameId">
+            <label for="maleId">Male</label>
+            <input type="radio" value="male" id="maleId" name="gender" checked>
+            <input type="radio" value="female" name="gender">
+            
+            Agree<input type="checkbox">
+
+            <select >
+                <option >India</option>
+                <option selected>Pak</option>
+                
+            </select>
+
+            <input type="submit" value="Login">
+            <p id="aa"></p>
+        </form>
+    </div>
+    <script>
+                    let name=document.getElementById("aa");
+
+        function submitForm(){
+            name.textContent="Anjan"
+        }
+    </script>
+    </body>
+</html>

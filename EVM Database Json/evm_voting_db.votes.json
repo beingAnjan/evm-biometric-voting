@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "69c4ce52a81df0b81fbc8cc6"
+  },
+  "candidateId": "C1122",
+  "state": "Andhra Pradesh",
+  "district": "Guntur",
+  "constituency": "Ponnur",
+  "timestamp": "26-03-2026 06:12:34"
+},
+{
+  "_id": {
+    "$oid": "69c4cf23a81df0b81fbc8cc7"
+  },
+  "candidateId": "C1265",
+  "state": "Andhra Pradesh",
+  "district": "Srikakulam",
+  "constituency": "Palasa",
+  "timestamp": "26-03-2026 06:16:03"
+},
+{
+  "_id": {
+    "$oid": "69c4cf4ba81df0b81fbc8cc8"
+  },
+  "candidateId": "C1265",
+  "state": "Andhra Pradesh",
+  "district": "Srikakulam",
+  "constituency": "Palasa",
+  "timestamp": "26-03-2026 06:16:43"
+},
+{
+  "_id": {
+    "$oid": "69c4cf64a81df0b81fbc8cc9"
+  },
+  "candidateId": "C1267",
+  "state": "Andhra Pradesh",
+  "district": "Srikakulam",
+  "constituency": "Palasa",
+  "timestamp": "26-03-2026 06:17:08"
+},
+{
+  "_id": {
+    "$oid": "69c4cf78a81df0b81fbc8cca"
+  },
+  "candidateId": "C1268",
+  "state": "Andhra Pradesh",
+  "district": "Srikakulam",
+  "constituency": "Palasa",
+  "timestamp": "26-03-2026 06:17:28"
+},
+{
+  "_id": {
+    "$oid": "69c4cf88a81df0b81fbc8ccb"
+  },
+  "candidateId": "C1266",
+  "state": "Andhra Pradesh",
+  "district": "Srikakulam",
+  "constituency": "Palasa",
+  "timestamp": "26-03-2026 06:17:44"
+}]

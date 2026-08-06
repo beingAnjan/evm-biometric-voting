@@ -2,7 +2,9 @@ from flask import Flask, request, jsonify, send_from_directory
 from datetime import datetime
 
 from db import voters_col, admins_col, candidates_col, votes_col
-
+from fingerprint_pipeline import bmp_to_json
+from fingerprint_matcher import match_fingerprints
+import os
 
 # Tell Flask to use the "public" folder
 app = Flask(
@@ -184,7 +186,170 @@ def get_results():
         "results": results
     })
 
+@app.route("/verify-fingerprint", methods=["POST"])
+def verify_fingerprint():
+
+    file = request.files.get("fingerprint")
+    voter_id = request.form.get("voterId")
+
+    if not file or not voter_id:
+        return jsonify({
+            "success": False,
+            "message": "Missing data"
+        })
+
+    # -------------------------------
+    # Check file extension
+    # -------------------------------
+    extension = file.filename.lower().split(".")[-1]
+
+    allowed = ["png", "jpg", "jpeg", "bmp"]
+
+    if extension not in allowed:
+        return jsonify({
+            "success": False,
+            "message": "Only png, jpg, jpeg and bmp files are allowed"
+        })
+
+    # -------------------------------
+    # Find voter
+    # -------------------------------
+    voter = voters_col.find_one({
+        "voterId": voter_id
+    })
+
+    if not voter:
+        return jsonify({
+            "success": False,
+            "message": "Voter not found"
+        })
+
+    # -------------------------------
+    # Get stored fingerprint template
+    # -------------------------------
+    stored_template = voter.get("fingerprint")
+
+    if not stored_template:
+        return jsonify({
+            "success": False,
+            "message": "Fingerprint template not found"
+        })
+
+    # -------------------------------
+    # Save uploaded image temporarily
+    # -------------------------------
+    upload_path = f"temp_fingerprint.{extension}"
+    file.save(upload_path)
+
+    try:
+        # Extract minutiae from uploaded image
+        uploaded_template = bmp_to_json(upload_path)
+
+    except Exception as e:
+
+        if os.path.exists(upload_path):
+            os.remove(upload_path)
+
+        print("Fingerprint processing error:", e)
+
+        return jsonify({
+            "success": False,
+            "message": "Unable to process fingerprint image"
+        })
+
+    # Remove temporary file
+    if os.path.exists(upload_path):
+        os.remove(upload_path)
+
+    # -------------------------------
+    # Debug prints
+    # -------------------------------
+    print("Voter ID:", voter_id)
+    print("Stored minutiae:", len(stored_template))
+    print("Uploaded minutiae:", len(uploaded_template))
+
+    print(
+        "Stored endings:",
+        sum(
+            1
+            for p in stored_template
+            if p["type"] == "ending"
+        )
+    )
+
+    print(
+        "Stored bifurcations:",
+        sum(
+            1
+            for p in stored_template
+            if p["type"] == "bifurcation"
+        )
+    )
+
+    print(
+        "Uploaded endings:",
+        sum(
+            1
+            for p in uploaded_template
+            if p["type"] == "ending"
+        )
+    )
+
+    print(
+        "Uploaded bifurcations:",
+        sum(
+            1
+            for p in uploaded_template
+            if p["type"] == "bifurcation"
+        )
+    )
+
+    # -------------------------------
+    # Match fingerprints
+    # -------------------------------
+    score = match_fingerprints(
+        stored_template,
+        uploaded_template,
+        tolerance=8
+    )
+
+    score = round(score * 100, 2)
+
+    print("Fingerprint Score:", score, "%")
+
+    # -------------------------------
+    # Threshold
+    # -------------------------------
+    THRESHOLD = 99
+
+    if score < THRESHOLD:
+        return jsonify({
+            "success": False,
+            "message":
+                f"Fingerprint does not match this voter "
+                f"(Score: {score}%)"
+        })
+
+    # -------------------------------
+    # Check vote status
+    # -------------------------------
+    if voter.get("hasVoted"):
+        return jsonify({
+            "success": False,
+            "message": "YOUR VOTE IS ALREADY CASTED"
+        })
+
+    # -------------------------------
+    # Success
+    # -------------------------------
+    return jsonify({
+        "success": True,
+        "message": "Fingerprint verified successfully",
+        "score": score,
+        "voterId": voter_id
+    })
+
 # ---------------- RUN SERVER ----------------
 if __name__ == "__main__":
     print("Flask server starting...")
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)

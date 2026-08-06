@@ -1,0 +1,28 @@
+body {
+    font-family: Arial;
+    background: #f4f6f8;
+    text-align: center;
+}
+
+.container {
+    margin-top: 100px;
+    background: white;
+    padding: 30px;
+    display: inline-block;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+button {
+    padding: 10px 20px;
+    background: #007bff;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#status {
+    margin-top: 15px;
+    font-weight: bold;
+}

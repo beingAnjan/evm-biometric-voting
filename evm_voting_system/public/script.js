@@ -71,7 +71,7 @@ async function login() {
                 localStorage.setItem("state",data.state);
                 localStorage.setItem("district",data.district);
                 localStorage.setItem("constituency",data.constituency);
-
+                localStorage.setItem("voterId", userId);
                 window.location.href = "voterPanel.html";
 
             }

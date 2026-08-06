@@ -13,12 +13,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const district = localStorage.getItem("district");
     const constituency = localStorage.getItem("constituency");
 
-    // Show logged in user
+    // 👤 Show logged in user
     if (voterName) {
         document.getElementById("voterName").innerText =
             "Logged in as " + voterName;
     }
-
 
     // 🚪 Logout button
     document.getElementById("logoutBtn").addEventListener("click", function () {
@@ -30,71 +29,94 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.removeItem("constituency");
 
         window.location.replace("page.html");
-
     });
 
-
     // 🗳️ Vote button
-    document.getElementById("voteBtn").addEventListener("click", async function(){
+    document.getElementById("voteBtn").addEventListener("click", function () {
 
-        if(!selectedCandidate){
+        if (!selectedCandidate) {
             alert("Please select a candidate before voting.");
             return;
         }
 
-        const voterName = localStorage.getItem("voterName");
+        // 🔐 Check fingerprint verification
+        if (localStorage.getItem("fingerVerified") !== "true") {
 
-        try{
+            // Save selected candidate
+            localStorage.setItem("pendingCandidate", selectedCandidate);
 
-            const response = await fetch("/vote",{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({
-                    voterName:voterName,
-                    candidateId:selectedCandidate
-                })
-            });
-
-            const data = await response.json();
-
-            if(response.ok){
-
-                // Show success message
-                alert("Your vote has been recorded");
-
-                // Clear login session
-                localStorage.removeItem("voterLoggedIn");
-                localStorage.removeItem("voterName");
-                localStorage.removeItem("state");
-                localStorage.removeItem("district");
-                localStorage.removeItem("constituency");
-
-                // Redirect to login page
-                window.location.replace("page.html");
-
-            }
-            else{
-                alert(data.message);
-            }
-
-        }
-        catch(err){
-            console.error(err);
-            alert("Vote submission failed.");
+            // Go to fingerprint page
+            window.location.href = "fingerprint.html";
+            return;
         }
 
+        // ✅ Already verified → submit vote
+        submitVote();
     });
 
-
-    // Load candidates
+    // 📥 Load candidates
     loadCandidates(state, district, constituency);
+
+    // 🔁 AUTO SUBMIT after fingerprint verification
+    if (
+        localStorage.getItem("fingerVerified") === "true" &&
+        localStorage.getItem("pendingCandidate")
+    ) {
+        submitVote();
+    }
 
 });
 
 
+// 🧠 Submit vote function
+async function submitVote() {
 
+    const voterName = localStorage.getItem("voterName");
+    const candidateId =
+        localStorage.getItem("pendingCandidate") || selectedCandidate;
+
+    try {
+
+        const response = await fetch("/vote", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                voterName: voterName,
+                candidateId: candidateId
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+
+            alert("✅ Your vote has been recorded");
+
+            // 🔥 Clear everything
+            localStorage.removeItem("voterLoggedIn");
+            localStorage.removeItem("voterName");
+            localStorage.removeItem("state");
+            localStorage.removeItem("district");
+            localStorage.removeItem("constituency");
+            localStorage.removeItem("fingerVerified");
+            localStorage.removeItem("pendingCandidate");
+
+            window.location.replace("page.html");
+
+        } else {
+            alert(data.message);
+        }
+
+    } catch (err) {
+        console.error(err);
+        alert("❌ Vote submission failed.");
+    }
+}
+
+
+// 📊 Load candidates
 async function loadCandidates(state, district, constituency) {
 
     const grid = document.getElementById("candidateGrid");
@@ -120,14 +142,12 @@ async function loadCandidates(state, district, constituency) {
                 <div class="selected-badge">✔ Selected</div>
 
                 <div class="card-header">
-
                     <div class="avatar">${c.name.charAt(0)}</div>
 
                     <div>
                         <div class="candidate-name">${c.name}</div>
                         <div class="party">${c.party}</div>
                     </div>
-
                 </div>
 
                 <div class="candidate-id">
@@ -136,29 +156,26 @@ async function loadCandidates(state, district, constituency) {
             `;
 
             grid.appendChild(card);
-
         });
 
         activateSelection();
 
-    }
-    catch(err){
+    } catch (err) {
         console.error("Failed to load candidates", err);
     }
-
 }
 
 
-
-function activateSelection(){
+// 🎯 Candidate selection
+function activateSelection() {
 
     const cards = document.querySelectorAll(".card");
 
     cards.forEach(card => {
 
-        card.addEventListener("click", function(){
+        card.addEventListener("click", function () {
 
-            cards.forEach(c=>{
+            cards.forEach(c => {
                 c.classList.remove("selected");
                 c.classList.add("faded");
             });
@@ -167,9 +184,7 @@ function activateSelection(){
             this.classList.add("selected");
 
             selectedCandidate = this.dataset.id;
-
         });
 
     });
-
 }

@@ -1,0 +1,9 @@
+[{
+  "_id": {
+    "$oid": "69bab9686aafe6b9aedd1d17"
+  },
+  "adminId": "admin",
+  "password": "admin123",
+  "adminName": "Andhra Pradesh Election Officer",
+  "state": "Andhra Pradesh"
+}]
