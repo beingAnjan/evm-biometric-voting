@@ -1,8 +1,14 @@
+import os
 from pymongo import MongoClient
 
 print("Connecting to MongoDB...")
 
-client = MongoClient("mongodb://localhost:27017/")
+MONGO_URI = os.environ.get("MONGO_URI")
+
+if not MONGO_URI:
+    raise Exception("MONGO_URI not found in environment variables")
+
+client = MongoClient(MONGO_URI)
 
 db = client["evm_voting_db"]
 
