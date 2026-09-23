@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_file
 from datetime import datetime
 
 from db import voters_col, admins_col, candidates_col, votes_col
@@ -12,11 +12,18 @@ app = Flask(__name__)
 # ---------------- HOME PAGE ----------------
 @app.route("/")
 def home():
-    return send_from_directory(
-        os.path.join(app.root_path, "evm_voting_system", "public"),
+    page_path = os.path.join(
+        app.root_path,
+        "evm_voting_system",
+        "public",
         "page.html"
     )
 
+    print("Looking for page at:", page_path)
+    print("File exists:", os.path.exists(page_path))
+
+    return send_file(page_path)
+    
 # ---------------- LOGIN API ----------------
 @app.route("/login", methods=["POST"])
 def login():
