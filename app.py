@@ -30,6 +30,27 @@ def home():
 def public_files(filename):
     return send_from_directory(PUBLIC_DIR, filename)
 
+@app.route("/test-db")
+def test_db():
+    try:
+        # Test MongoDB connection
+        from db import client
+
+        client.admin.command("ping")
+
+        return jsonify({
+            "success": True,
+            "message": "MongoDB connection successful"
+        })
+
+    except Exception as e:
+        print("MongoDB ERROR:", repr(e))
+
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
 # ---------------- LOGIN API ----------------
 @app.route("/login", methods=["POST"])
 def login():
