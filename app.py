@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, send_from_directory
 from datetime import datetime
 
 from db import voters_col, admins_col, candidates_col, votes_col
