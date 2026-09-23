@@ -9,6 +9,8 @@ import os
 # Tell Flask to use the "public" folder
 app = Flask(__name__)
 
+PUBLIC_DIR = os.path.join(app.root_path, "evm_voting_system", "public")
+
 # ---------------- HOME PAGE ----------------
 @app.route("/")
 def home():
