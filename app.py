@@ -7,18 +7,15 @@ from fingerprint_matcher import match_fingerprints
 import os
 
 # Tell Flask to use the "public" folder
-app = Flask(
-    __name__,
-    static_folder="evm_voting_system/public",
-    static_url_path=""
-)
-
+app = Flask(__name__)
 
 # ---------------- HOME PAGE ----------------
 @app.route("/")
 def home():
-    return send_from_directory(app.static_folder, "page.html")
-
+    return send_from_directory(
+        os.path.join(app.root_path, "evm_voting_system", "public"),
+        "page.html"
+    )
 
 # ---------------- LOGIN API ----------------
 @app.route("/login", methods=["POST"])
