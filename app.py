@@ -25,7 +25,11 @@ def home():
     print("File exists:", os.path.exists(page_path))
 
     return send_file(page_path)
-    
+
+@app.route("/<path:filename>")
+def public_files(filename):
+    return send_from_directory(PUBLIC_DIR, filename)
+
 # ---------------- LOGIN API ----------------
 @app.route("/login", methods=["POST"])
 def login():
