@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "app.py": {
+      "includeFiles": [
+        "evm_voting_system/public/**"
+      ]
+    }
+  }
+}
