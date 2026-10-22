@@ -156,12 +156,32 @@
                 <label class="visually-hidden" for="constituencySelect">Constituency</label>
                 <select id="constituencySelect" onchange="filterConstituency()"></select>
             </div>
-            <div class="table-card">
-                <table>
-                    <thead><tr><th>Constituency</th><th>Total votes</th><th>Leading candidate</th></tr></thead>
-                    <tbody id="constituencyTable"><tr><td colspan="3" class="table-empty">Select a constituency to view its result.</td></tr></tbody>
-                </table>
+            <div class="results-empty" id="resultsEmpty" aria-live="polite">
+                <span class="empty-icon" aria-hidden="true">⌖</span>
+                <strong>Choose a constituency</strong>
+                <p>Select a district and constituency to see the candidate vote breakdown.</p>
             </div>
+            <section class="results-panel" id="resultsPanel" hidden aria-live="polite">
+                <div class="results-overview">
+                    <div class="result-location">
+                        <span class="result-label">SELECTED CONSTITUENCY</span>
+                        <h3 id="resultPlace">—</h3>
+                    </div>
+                    <div class="result-total">
+                        <span class="result-label">TOTAL VOTES</span>
+                        <strong id="resultTotalVotes">0</strong>
+                    </div>
+                    <div class="result-leader">
+                        <span class="result-label">CURRENT LEADER</span>
+                        <strong id="resultWinner">—</strong>
+                    </div>
+                </div>
+                <div class="candidate-results-heading">
+                    <div><h3>Candidate results</h3><p>Vote totals and share of ballots recorded.</p></div>
+                    <span id="resultCandidateCount" class="candidate-count">0 candidates</span>
+                </div>
+                <div id="constituencyTable" class="candidate-results" role="list"></div>
+            </section>
         </section>
 
         <section id="reportsSection" class="section" style="display:none;">
