@@ -1,97 +1,190 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Inter', sans-serif;
+:root {
+    color-scheme: light;
+    --ink: #17213a;
+    --muted: #6c7892;
+    --blue: #4c62e8;
+    --blue-dark: #394fd0;
+    --line: #e7eaf3;
+    --surface: #ffffff;
+    --canvas: #f5f7fc;
+    --green: #18855b;
 }
-
-body{
-    background:#f4f7fb;
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--ink);
+    background:
+        radial-gradient(ellipse at 88% 2%, rgba(108, 99, 255, .12), transparent 30rem),
+        var(--canvas);
+    font-family: "DM Sans", sans-serif;
 }
-
-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:18px 40px;
-    background:white;
-    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+button { font: inherit; }
+.site-header {
+    min-height: 78px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 14px max(28px, calc((100vw - 1180px) / 2));
+    background: rgba(255,255,255,.88);
+    border-bottom: 1px solid rgba(227,231,242,.85);
+    backdrop-filter: blur(16px);
 }
-
-.logo{
-    width:45px;
-    height:45px;
-    background:linear-gradient(135deg,#4f7cff,#6c63ff);
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    font-weight:700;
+.brand { display: inline-flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; }
+.brand-mark {
+    width: 42px; height: 42px; display: grid; place-items: center;
+    color: white; border-radius: 14px; font-size: 23px; font-weight: 700;
+    background: linear-gradient(140deg, #566df3, #8060e9);
+    box-shadow: 0 8px 18px rgba(76,98,232,.22);
 }
-
-.logout-btn{
-    padding:10px 18px;
-    border-radius:8px;
-    border:1px solid #ddd;
-    background:white;
-    cursor:pointer;
+.brand strong, .brand small { display: block; }
+.brand strong { font: 800 16px "Manrope", sans-serif; letter-spacing: -.3px; }
+.brand small { margin-top: 2px; color: #8791a8; font-size: 9px; font-weight: 700; letter-spacing: 1.4px; }
+.header-actions { display: flex; align-items: center; gap: 14px; }
+.voter-chip {
+    display: flex; align-items: center; gap: 9px; max-width: 250px;
+    padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px;
+    background: white; color: #52607b; font-size: 13px; font-weight: 600;
 }
-
-.container{
-    max-width:1100px;
-    margin:40px auto;
+#voterName { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.online-dot { width: 8px; height: 8px; flex: 0 0 auto; border-radius: 50%; background: #23a878; box-shadow: 0 0 0 3px #e5f7ef; }
+.logout-btn, .secondary-btn {
+    padding: 10px 15px; border: 1px solid var(--line); border-radius: 11px;
+    background: white; color: #55617a; font-size: 13px; font-weight: 700; cursor: pointer;
+    transition: .18s ease;
 }
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:25px;
+.logout-btn:hover, .secondary-btn:hover { border-color: #c7cde0; background: #f9faff; }
+.container { width: min(100% - 48px, 1120px); margin: 0 auto; }
+.welcome-row { display: flex; justify-content: space-between; align-items: end; gap: 20px; padding: 47px 0 26px; }
+.eyebrow { margin: 0 0 8px; color: #7b85a0; font-size: 10px; font-weight: 800; letter-spacing: 1.6px; }
+.welcome-row h1 { margin: 0; font: 800 clamp(30px, 4vw, 42px)/1.15 "Manrope", sans-serif; letter-spacing: -1.6px; }
+.welcome-copy { margin: 9px 0 0; color: var(--muted); font-size: 15px; }
+.local-time { display: flex; align-items: center; gap: 8px; color: #697591; font-size: 13px; white-space: nowrap; }
+.time-icon { color: var(--blue); font-size: 21px; }
+.election-card {
+    display: grid; grid-template-columns: 52px minmax(0,1fr) auto; align-items: center; gap: 16px;
+    min-height: 118px; padding: 22px 25px; border: 1px solid var(--line); border-radius: 18px;
+    background: var(--surface); box-shadow: 0 9px 28px rgba(35,49,91,.045);
 }
-
-.card{
-    background:white;
-    padding:25px;
-    border-radius:16px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.06);
-    cursor:pointer;
-    border:2px solid transparent;
-    position:relative;
+.status-symbol {
+    display: grid; place-items: center; width: 48px; height: 48px; border-radius: 15px;
+    color: var(--blue); background: #eef1ff; font-size: 22px; font-weight: 800;
 }
-
-.card.selected{
-    border:2px solid #2563eb;
-    background:#eef4ff;
+.election-card[data-status="open"] .status-symbol { color: var(--green); background: #e9f8f1; }
+.election-card[data-status="closed"] .status-symbol,
+.election-card[data-status="not_configured"] .status-symbol { color: #b75d3c; background: #fff1e9; }
+.election-copy h2 { margin: 0; font: 700 17px "Manrope", sans-serif; }
+.election-copy > p:last-child { margin: 5px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.status-side { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
+.status-badge { padding: 7px 11px; border-radius: 999px; color: #666f85; background: #f0f2f7; font-size: 11px; font-weight: 800; }
+.election-card[data-status="open"] .status-badge { color: #13734d; background: #e7f7ee; }
+.election-card[data-status="scheduled"] .status-badge { color: #976117; background: #fff5df; }
+.election-card[data-status="closed"] .status-badge,
+.election-card[data-status="not_configured"] .status-badge { color: #a54f36; background: #fff0e9; }
+.countdown { color: #8a93a8; font-size: 11px; white-space: nowrap; }
+.steps { display: flex; align-items: center; gap: 13px; margin: 29px 2px 35px; color: #8992a7; font-size: 12px; font-weight: 700; }
+.step { display: flex; align-items: center; gap: 9px; white-space: nowrap; }
+.step-number { display: grid; place-items: center; width: 26px; height: 26px; border: 1px solid #dfe3ee; border-radius: 50%; color: #8790a6; background: white; font-size: 11px; }
+.step.active { color: var(--blue-dark); }
+.step.active .step-number { border-color: #dce2ff; color: #fff; background: var(--blue); }
+.step-line { width: min(100px, 10vw); height: 1px; background: #dfe3ee; }
+.candidate-section { padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); box-shadow: 0 12px 36px rgba(35,49,91,.055); }
+.section-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 22px; }
+.section-heading h2 { margin: 0; font: 700 20px "Manrope", sans-serif; letter-spacing: -.4px; }
+.section-copy { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
+.candidate-count { padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px; color: #707b94; background: #fbfcff; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+.candidate-card {
+    position: relative; display: flex; align-items: center; gap: 15px; width: 100%; min-height: 100px;
+    padding: 18px; border: 1.5px solid #e9ecf4; border-radius: 15px; color: var(--ink);
+    background: #fff; text-align: left; cursor: pointer; transition: border-color .18s, box-shadow .18s, transform .18s, background .18s;
 }
-
-.card.faded{
-    opacity:0.3;
-    pointer-events:none;
+.candidate-card:hover { border-color: #bfc9ff; box-shadow: 0 8px 20px rgba(68,88,203,.08); transform: translateY(-2px); }
+.candidate-card:focus-visible, button:focus-visible { outline: 3px solid rgba(76,98,232,.28); outline-offset: 3px; }
+.candidate-card.selected { border-color: #6577ee; background: #f7f8ff; box-shadow: 0 0 0 3px rgba(76,98,232,.08); }
+.candidate-avatar, .review-avatar {
+    display: grid; place-items: center; flex: 0 0 auto; width: 52px; height: 52px; border-radius: 16px;
+    color: #4d5fcd; background: linear-gradient(145deg, #eff1ff, #e8eaff); font: 800 19px "Manrope", sans-serif;
 }
-
-.selected-badge{
-    position:absolute;
-    top:15px;
-    right:15px;
-    background:#2563eb;
-    color:white;
-    padding:6px 14px;
-    border-radius:20px;
-    font-size:13px;
-    display:none;
+.candidate-details { min-width: 0; padding-right: 35px; }
+.candidate-name { display: block; overflow: hidden; color: #1f2a44; font: 700 15px "Manrope", sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+.party { display: block; margin-top: 5px; color: #75809a; font-size: 12px; }
+.candidate-id { display: block; margin-top: 7px; color: #9aa2b3; font-size: 10px; }
+.selection-indicator {
+    position: absolute; top: 50%; right: 17px; display: grid; place-items: center;
+    width: 23px; height: 23px; border: 1.5px solid #d9deeb; border-radius: 50%;
+    color: transparent; background: white; transform: translateY(-50%);
 }
-
-.card.selected .selected-badge{
-    display:block;
+.candidate-card.selected .selection-indicator { border-color: var(--blue); color: white; background: var(--blue); font-size: 12px; }
+.empty-state, .loading-card {
+    grid-column: 1 / -1; display: flex; justify-content: center; align-items: center; gap: 12px;
+    min-height: 130px; padding: 25px; border: 1px dashed #dfe4f0; border-radius: 15px;
+    color: #79849c; background: #fbfcff; text-align: center; font-size: 13px;
 }
-
-.vote-btn{
-    margin:40px auto 0;
-    display:block;
-    padding:15px 40px;
-    border:none;
-    border-radius:12px;
-    color:white;
-    background:linear-gradient(135deg,#4f7cff,#7c5cff);
-    cursor:pointer;
+.loader { width: 19px; height: 19px; border: 2px solid #e2e6f2; border-top-color: var(--blue); border-radius: 50%; animation: spin .75s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.selection-note { display: flex; align-items: flex-start; gap: 10px; margin-top: 18px; padding: 12px 14px; border-radius: 12px; color: #687590; background: #f6f8ff; font-size: 12px; line-height: 1.5; }
+.note-icon { display: grid; place-items: center; flex: 0 0 auto; width: 17px; height: 17px; border-radius: 50%; color: #5265d8; background: #e5e9ff; font: 700 11px Georgia, serif; }
+.action-message { min-height: 0; margin: 0; color: #b14b37; font-size: 13px; }
+.action-message:not(:empty) { margin-top: 12px; }
+.vote-actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 20px; padding-top: 19px; border-top: 1px solid #edf0f6; }
+.privacy-note { color: #8791a6; font-size: 12px; }
+.vote-btn {
+    display: inline-flex; justify-content: center; align-items: center; gap: 12px; min-height: 46px;
+    padding: 0 20px; border: 0; border-radius: 12px; color: white;
+    background: linear-gradient(120deg, #5269ed, #765de2); box-shadow: 0 7px 16px rgba(76,98,232,.18);
+    font-size: 13px; font-weight: 700; cursor: pointer; transition: .18s ease;
+}
+.vote-btn:hover:not(:disabled) { box-shadow: 0 10px 22px rgba(76,98,232,.25); transform: translateY(-1px); }
+.vote-btn:disabled { color: #98a1b5; background: #e8ebf2; box-shadow: none; cursor: not-allowed; }
+.page-footer { display: flex; justify-content: space-between; gap: 15px; padding: 22px 2px 30px; color: #99a1b2; font-size: 11px; }
+.page-footer span:last-child { text-align: right; }
+.confirm-dialog { width: min(100% - 32px, 430px); padding: 30px; border: 1px solid #e6e9f2; border-radius: 22px; color: var(--ink); box-shadow: 0 25px 90px rgba(20,30,68,.25); }
+.confirm-dialog::backdrop { background: rgba(22,30,57,.48); backdrop-filter: blur(4px); }
+.dialog-close-form { position: absolute; top: 13px; right: 13px; }
+.dialog-close { width: 32px; height: 32px; border: 0; border-radius: 50%; color: #7b8498; background: #f1f3f8; font-size: 22px; cursor: pointer; }
+.dialog-icon { display: grid; place-items: center; width: 46px; height: 46px; margin-bottom: 19px; border-radius: 14px; color: var(--blue); background: #edf0ff; font-size: 20px; font-weight: 800; }
+.confirm-dialog h2 { margin: 0; font: 800 22px "Manrope", sans-serif; letter-spacing: -.6px; }
+.review-candidate { display: flex; align-items: center; gap: 13px; margin: 20px 0; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: #fbfcff; }
+.review-avatar { width: 44px; height: 44px; }
+.review-candidate strong, .review-candidate small { display: block; }
+.review-candidate strong { font-size: 14px; }
+.review-candidate small { margin-top: 4px; color: var(--muted); font-size: 12px; }
+.dialog-copy { color: #717c94; font-size: 13px; line-height: 1.6; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+.dialog-actions .vote-btn { min-width: 145px; }
+@media (max-width: 720px) {
+    .site-header { min-height: 68px; padding: 12px 18px; }
+    .brand-mark { width: 38px; height: 38px; }
+    .header-actions { gap: 8px; }
+    .voter-chip { max-width: 145px; padding: 8px 10px; font-size: 11px; }
+    .logout-btn { padding: 9px 11px; font-size: 12px; }
+    .container { width: min(100% - 32px, 560px); }
+    .welcome-row { align-items: flex-start; flex-direction: column; padding: 34px 0 20px; }
+    .local-time { font-size: 12px; }
+    .election-card { grid-template-columns: 42px minmax(0,1fr); gap: 12px; padding: 17px; }
+    .status-symbol { width: 40px; height: 40px; border-radius: 13px; }
+    .election-copy h2 { font-size: 15px; }
+    .election-copy > p:last-child { font-size: 12px; }
+    .status-side { grid-column: 2; flex-direction: row; align-items: center; justify-content: space-between; }
+    .steps { gap: 7px; margin: 23px 0; font-size: 10px; }
+    .step { gap: 6px; }
+    .step-number { width: 23px; height: 23px; }
+    .step-line { flex: 1; width: auto; }
+    .candidate-section { padding: 19px 16px; border-radius: 17px; }
+    .section-heading { align-items: flex-start; }
+    .section-heading h2 { font-size: 17px; }
+    .candidate-count { padding: 7px 9px; font-size: 10px; }
+    .grid { grid-template-columns: 1fr; gap: 10px; }
+    .candidate-card { min-height: 88px; padding: 14px; }
+    .candidate-avatar { width: 45px; height: 45px; }
+    .vote-actions { align-items: stretch; flex-direction: column; }
+    .privacy-note { order: 2; text-align: center; }
+    .vote-btn { width: 100%; }
+    .page-footer { flex-direction: column; }
+    .page-footer span:last-child { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
