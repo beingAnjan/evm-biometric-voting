@@ -209,6 +209,28 @@ def manage_election():
     return jsonify(election_status())
 
 
+@app.route("/admin/dashboard", methods=["GET"])
+def get_admin_dashboard():
+    if session.get("role") != "admin":
+        return jsonify({"message": "Admin login required"}), 401
+
+    total_votes = votes_col.count_documents({})
+    total_voters = voters_col.count_documents({})
+    turnout = round((total_votes / total_voters) * 100, 1) if total_voters else 0
+
+    leading_candidate = list(votes_col.aggregate([
+        {"$group": {"_id": "$candidateId", "votes": {"$sum": 1}}},
+        {"$sort": {"votes": -1, "_id": 1}},
+        {"$limit": 1},
+    ]))
+
+    return jsonify({
+        "totalVotes": total_votes,
+        "turnout": turnout,
+        "leadingCandidate": leading_candidate[0]["_id"] if leading_candidate else "--",
+    })
+
+
 # ---------------- GET CANDIDATES ----------------
 @app.route("/candidates", methods=["GET"])
 def get_candidates():
