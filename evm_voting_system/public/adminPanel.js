@@ -140,7 +140,9 @@ async function initializeDropdowns() {
     document.getElementById("constituencySelect").innerHTML =
         '<option value="">Select Constituency</option>';
 
-    document.getElementById("constituencyTable").innerHTML = "";
+    document.getElementById("constituencyTable").replaceChildren();
+    document.getElementById("resultsPanel").hidden = true;
+    showResultsMessage("Choose a constituency", "Select a district and constituency to see the candidate vote breakdown.");
 }
 
 /* ================= LOAD CONSTITUENCIES ================= */
@@ -174,42 +176,134 @@ function loadConstituenciesDropdown() {
 /* ================= FILTER TABLE + LOAD RESULTS ================= */
 
 async function filterConstituency() {
-
     const district = document.getElementById("districtSelect").value;
     const constituency = document.getElementById("constituencySelect").value;
+    const resultsPanel = document.getElementById("resultsPanel");
+    const resultsEmpty = document.getElementById("resultsEmpty");
 
-    const table = document.getElementById("constituencyTable");
+    resultsPanel.hidden = true;
+    if (!constituency) {
+        showResultsMessage("Choose a constituency", "Select a district and constituency to see the candidate vote breakdown.");
+        return;
+    }
 
-    table.innerHTML = "";
-
-    if (!constituency) return;
+    showResultsMessage("Loading results…", "Fetching the latest recorded candidate votes.");
 
     try {
+        const params = new URLSearchParams({
+            state: stateName,
+            district: district,
+            constituency: constituency
+        });
+        const [resultsResponse, candidatesResponse] = await Promise.all([
+            fetch("/results?" + params.toString()),
+            fetch("/candidates?" + params.toString())
+        ]);
 
-        const response = await fetch(
-            `/results?state=${stateName}&district=${district}&constituency=${constituency}`
+        const data = await resultsResponse.json();
+        if (!resultsResponse.ok) throw new Error(data.message || "Could not load constituency results.");
+        const candidates = candidatesResponse.ok ? await candidatesResponse.json() : [];
+        const candidateById = new Map(
+            (Array.isArray(candidates) ? candidates : []).map((candidate) => [
+                String(candidate.candidateId),
+                candidate
+            ])
         );
 
-        const data = await response.json();
+        const totalVotes = Number(data.totalVotes) || 0;
+        const results = Array.isArray(data.results) ? data.results : [];
+        document.getElementById("resultPlace").textContent = constituency;
+        document.getElementById("resultTotalVotes").textContent = totalVotes.toLocaleString();
 
-        table.innerHTML = `
-            <tr>
-                <td>${constituency}</td>
-                <td>${data.totalVotes}</td>
-                <td>${data.winner}</td>
-            </tr>
-        `;
+        let winner = data.winner || "--";
+        if (winner !== "Tie" && winner !== "--") {
+            const leadingCandidate = candidateById.get(String(winner));
+            if (leadingCandidate && leadingCandidate.name) winner = leadingCandidate.name;
+        }
+        document.getElementById("resultWinner").textContent = winner;
+        document.getElementById("resultCandidateCount").textContent =
+            results.length + (results.length === 1 ? " candidate with votes" : " candidates with votes");
 
+        const resultList = document.getElementById("constituencyTable");
+        resultList.replaceChildren();
+
+        if (results.length === 0) {
+            const empty = document.createElement("div");
+            empty.className = "results-empty inline";
+            empty.textContent = "No votes have been recorded in this constituency yet.";
+            resultList.appendChild(empty);
+        } else {
+            results.forEach((result, index) => {
+                const candidateId = String(result._id || "");
+                const candidate = candidateById.get(candidateId);
+                const votes = Number(result.votes) || 0;
+                const share = totalVotes > 0 ? (votes / totalVotes) * 100 : 0;
+                const isLeading = data.winner !== "Tie" && candidateId === String(data.winner);
+
+                const row = document.createElement("article");
+                row.className = "candidate-result-row" + (isLeading ? " is-leading" : "");
+                row.setAttribute("role", "listitem");
+
+                const top = document.createElement("div");
+                top.className = "candidate-result-top";
+
+                const identity = document.createElement("div");
+                identity.className = "result-candidate";
+
+                const rank = document.createElement("span");
+                rank.className = "result-rank";
+                rank.textContent = String(index + 1).padStart(2, "0");
+
+                const copy = document.createElement("span");
+                copy.className = "result-candidate-copy";
+
+                const name = document.createElement("strong");
+                name.textContent = candidate && candidate.name ? candidate.name : "Candidate " + candidateId;
+
+                const party = document.createElement("small");
+                party.textContent = candidate && candidate.party ? candidate.party : "Candidate ID: " + candidateId;
+
+                copy.append(name, party);
+                identity.append(rank, copy);
+
+                const voteCount = document.createElement("span");
+                voteCount.className = "result-votes";
+                voteCount.textContent = votes.toLocaleString() + (votes === 1 ? " vote" : " votes");
+
+                const percentage = document.createElement("span");
+                percentage.className = "result-share";
+                percentage.textContent = share.toFixed(1) + "%";
+
+                top.append(identity, voteCount, percentage);
+
+                const track = document.createElement("div");
+                track.className = "result-track";
+                track.setAttribute("role", "img");
+                track.setAttribute("aria-label", share.toFixed(1) + "% of recorded votes");
+
+                const fill = document.createElement("div");
+                fill.className = "result-track-fill";
+                fill.style.width = share.toFixed(1) + "%";
+                track.appendChild(fill);
+
+                row.append(top, track);
+                resultList.appendChild(row);
+            });
+        }
+
+        resultsEmpty.hidden = true;
+        resultsPanel.hidden = false;
     } catch (error) {
-
-        table.innerHTML = `
-            <tr>
-                <td>${constituency}</td>
-                <td>0</td>
-                <td>--</td>
-            </tr>
-        `;
+        resultsPanel.hidden = true;
+        showResultsMessage("Results unavailable", error.message || "Could not load constituency results. Please try again.");
     }
+}
+
+function showResultsMessage(title, message) {
+    const resultsEmpty = document.getElementById("resultsEmpty");
+    resultsEmpty.hidden = false;
+    resultsEmpty.querySelector("strong").textContent = title;
+    resultsEmpty.querySelector("p").textContent = message;
 }
 
 /* ================= DASHBOARD ================= */
