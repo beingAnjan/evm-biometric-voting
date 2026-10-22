@@ -165,14 +165,27 @@
         </section>
 
         <section id="reportsSection" class="section" style="display:none;">
-            <div class="section-title">
-                <p class="eyebrow">ELECTION INSIGHTS</p>
-                <h2>Reports &amp; analytics</h2>
-                <p>Review the current report summaries.</p>
+            <div class="section-title report-title-row">
+                <div>
+                    <p class="eyebrow">ELECTION INSIGHTS</p>
+                    <h2>Reports &amp; analytics</h2>
+                    <p>Live summaries calculated from votes and registered voters.</p>
+                </div>
+                <span id="reportsUpdated" class="updated-label">Not refreshed yet</span>
             </div>
             <div class="report-grid">
-                <article class="report-card"><div class="report-icon">⇄</div><h3>Top 5 close fights</h3><ul id="closeFights"></ul></article>
-                <article class="report-card"><div class="report-icon">↗</div><h3>Highest turnout constituency</h3><p id="highestTurnout">—</p></article>
+                <article class="report-card">
+                    <div class="report-icon">⇄</div>
+                    <h3>Closest races <span id="reportsFightCount" class="report-count"></span></h3>
+                    <p class="report-help">Constituencies ranked by the smallest margin between the top two candidates.</p>
+                    <div id="closeFights" class="fight-list" aria-live="polite"><p class="report-empty">Loading reports…</p></div>
+                </article>
+                <article class="report-card">
+                    <div class="report-icon">↗</div>
+                    <h3>Highest turnout</h3>
+                    <p class="report-help">Based on votes recorded compared with registered voters.</p>
+                    <div id="highestTurnout" aria-live="polite"><p class="report-empty">Loading turnout…</p></div>
+                </article>
             </div>
         </section>
     </main>
