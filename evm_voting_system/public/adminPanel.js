@@ -306,15 +306,102 @@ function formatDashboardDate(value) {
 
 /* ================= REPORTS ================= */
 
-function loadReports() {
+async function loadReports() {
+    const closeFights = document.getElementById("closeFights");
+    const highestTurnout = document.getElementById("highestTurnout");
+    const fightCount = document.getElementById("reportsFightCount");
+    closeFights.replaceChildren(createReportMessage("Loading close races…"));
+    highestTurnout.replaceChildren(createReportMessage("Loading turnout…"));
 
-    document.getElementById("closeFights").innerHTML = `
-        <li>Anakapalli - Margin 1,200</li>
-        <li>Vizag East - Margin 950</li>
-    `;
+    try {
+        const response = await fetch("/admin/reports");
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || "Could not load reports.");
 
-    document.getElementById("highestTurnout").innerText =
-        "Anakapalli (82%)";
+        const fights = Array.isArray(data.closeFights) ? data.closeFights : [];
+        fightCount.textContent = fights.length ? fights.length + (fights.length === 1 ? " race" : " races") : "";
+        closeFights.replaceChildren();
+
+        if (fights.length === 0) {
+            closeFights.appendChild(createReportMessage("No close races to show yet. More than one candidate needs recorded votes in a constituency."));
+        } else {
+            fights.forEach((fight, index) => {
+                const row = document.createElement("div");
+                row.className = "fight-row";
+
+                const details = document.createElement("div");
+                details.className = "fight-details";
+
+                const title = document.createElement("strong");
+                title.textContent = fight.constituency || "Unknown constituency";
+
+                const area = document.createElement("span");
+                area.textContent = [fight.district, fight.state].filter(Boolean).join(", ") || "Location unavailable";
+
+                const candidates = document.createElement("small");
+                candidates.textContent = fight.leadingCandidate + " leads " + fight.runnerUp;
+
+                details.append(title, area, candidates);
+
+                const margin = document.createElement("span");
+                margin.className = fight.margin === 0 ? "margin-badge tied" : "margin-badge";
+                margin.textContent = fight.margin === 0
+                    ? "Tied"
+                    : Number(fight.margin).toLocaleString() + " vote" + (fight.margin === 1 ? "" : "s");
+
+                const number = document.createElement("span");
+                number.className = "fight-number";
+                number.textContent = String(index + 1).padStart(2, "0");
+
+                row.append(number, details, margin);
+                closeFights.appendChild(row);
+            });
+        }
+
+        highestTurnout.replaceChildren();
+        if (!data.highestTurnout) {
+            highestTurnout.appendChild(createReportMessage("No turnout data is available yet. It will appear after a constituency has recorded votes."));
+        } else {
+            const result = data.highestTurnout;
+            const card = document.createElement("div");
+            card.className = "turnout-result";
+
+            const value = document.createElement("strong");
+            value.className = "turnout-value";
+            value.textContent = Number(result.turnout).toFixed(1) + "%";
+
+            const constituency = document.createElement("strong");
+            constituency.className = "turnout-location";
+            constituency.textContent = result.constituency || "Unknown constituency";
+
+            const area = document.createElement("span");
+            area.className = "turnout-area";
+            area.textContent = [result.district, result.state].filter(Boolean).join(", ");
+
+            const participation = document.createElement("p");
+            participation.textContent = Number(result.votes).toLocaleString() + " of " +
+                Number(result.registeredVoters).toLocaleString() + " registered voters";
+
+            card.append(value, constituency, area, participation);
+            highestTurnout.appendChild(card);
+        }
+
+        document.getElementById("reportsUpdated").textContent =
+            "Updated " + new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(new Date());
+    } catch (error) {
+        closeFights.replaceChildren(createReportMessage("Could not load reports. Please try refreshing."));
+        highestTurnout.replaceChildren(createReportMessage("Turnout is unavailable right now."));
+        fightCount.textContent = "";
+        document.getElementById("reportsUpdated").textContent = "Could not refresh";
+        console.error("Reports loading error:", error);
+    }
+}
+
+function createReportMessage(message) {
+    const element = document.createElement("p");
+    element.className = "report-empty";
+    element.textContent = message;
+    return element;
 }
 
 /* ================= LOGOUT ================= */
@@ -333,6 +420,7 @@ function logout() {
 const adminName = sessionStorage.getItem("adminName");
 if (adminName) document.getElementById("adminName").textContent = adminName;
 document.getElementById("refreshDashboardBtn").addEventListener("click", loadDashboard);
+document.getElementById("refreshReportsBtn").addEventListener("click", loadReports);
 
 window.onload = function () {
     showSection("dashboard");
@@ -341,5 +429,8 @@ window.onload = function () {
 setInterval(function () {
     if (document.getElementById("dashboardSection").style.display !== "none") {
         loadDashboard();
+    }
+    if (document.getElementById("reportsSection").style.display !== "none") {
+        loadReports();
     }
 }, 60000);

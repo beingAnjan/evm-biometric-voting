@@ -195,3 +195,31 @@ td { padding: 14px 16px; border-top: 1px solid #eef0f5; color: #4d5a74; }
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+.report-title-row { display: flex; justify-content: space-between; align-items: end; gap: 16px; }
+.report-title-actions { display: flex; align-items: center; gap: 14px; }
+.report-count { margin-left: 6px; color: #9aa3b4; font: 600 10px "DM Sans",sans-serif; }
+.report-card h3 { display: flex; align-items: center; gap: 3px; }
+.report-card .report-help { margin: 7px 0 0; color: #8993a8; font-size: 11px; line-height: 1.5; }
+.fight-list { display: grid; gap: 0; margin-top: 13px; }
+.fight-row {
+    display: grid; grid-template-columns: 25px minmax(0,1fr) auto; align-items: center; gap: 10px;
+    padding: 13px 0; border-top: 1px solid #eef0f5;
+}
+.fight-number { color: #a2aabc; font: 700 10px "Manrope",sans-serif; }
+.fight-details { display: grid; min-width: 0; gap: 3px; }
+.fight-details strong { overflow: hidden; color: #35415c; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.fight-details span { overflow: hidden; color: #929caf; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.fight-details small { overflow: hidden; color: #65718a; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.margin-badge { padding: 6px 8px; border-radius: 8px; color: #5664c8; background: #eef0ff; font-size: 9px; font-weight: 800; white-space: nowrap; }
+.margin-badge.tied { color: #9a6818; background: #fff4dc; }
+.report-empty { margin: 14px 0 2px; color: #909aae; font-size: 11px; line-height: 1.55; }
+.turnout-result { display: grid; justify-items: start; margin-top: 15px; padding: 17px; border: 1px solid #e6f1eb; border-radius: 13px; background: linear-gradient(135deg,#f2fbf5,#fbfdfb); }
+.turnout-value { color: #168257; font: 800 32px "Manrope",sans-serif; letter-spacing: -1px; }
+.turnout-location { margin-top: 10px; color: #35415c; font: 700 14px "Manrope",sans-serif; }
+.turnout-area { margin-top: 4px; color: #8993a8; font-size: 11px; }
+.turnout-result p { margin: 13px 0 0; padding-top: 11px; border-top: 1px solid #e3eee7; color: #6d7b73; font-size: 11px; }
+@media (max-width: 700px) {
+    .report-title-row { align-items: flex-start; flex-direction: column; }
+    .report-title-actions { width: 100%; justify-content: space-between; }
+}
