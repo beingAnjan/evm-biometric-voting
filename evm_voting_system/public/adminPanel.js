@@ -18,32 +18,25 @@ function hideAllSections() {
 }
 
 function showSection(section) {
-
     hideAllSections();
 
-    if (section === "dashboard") {
-        document.getElementById("pageTitle").innerText = "Dashboard";
-        document.getElementById("dashboardSection").style.display = "block";
-        loadDashboard();
-    }
+    const titles = {
+        dashboard: "Dashboard",
+        election: "Election settings",
+        constituency: "Constituencies",
+        reports: "Reports & analytics"
+    };
+    document.getElementById("pageTitle").innerText = titles[section] || "Dashboard";
+    document.getElementById(section + "Section").style.display = "block";
 
-    if (section === "election") {
-        document.getElementById("pageTitle").innerText = "Election settings";
-        document.getElementById("electionSection").style.display = "block";
-        loadElectionSettings();
-    }
+    document.querySelectorAll(".nav-item[data-section]").forEach((item) => {
+        item.classList.toggle("active", item.dataset.section === section);
+    });
 
-    if (section === "constituency") {
-        document.getElementById("pageTitle").innerText = "Constituencies";
-        document.getElementById("constituencySection").style.display = "block";
-        initializeDropdowns();
-    }
-
-    if (section === "reports") {
-        document.getElementById("pageTitle").innerText = "Reports";
-        document.getElementById("reportsSection").style.display = "block";
-        loadReports();
-    }
+    if (section === "dashboard") loadDashboard();
+    if (section === "election") loadElectionSettings();
+    if (section === "constituency") initializeDropdowns();
+    if (section === "reports") loadReports();
 }
 
 function toLocalDateTime(value) {
@@ -105,6 +98,7 @@ document.getElementById("electionForm").addEventListener("submit", async (event)
         if (!response.ok) throw new Error(data.message || "Could not save election settings.");
         showElectionState(data);
         message.textContent = "Election settings saved.";
+        loadDashboardElectionStatus();
     } catch (error) {
         message.textContent = error.message;
     }
@@ -220,29 +214,94 @@ async function filterConstituency() {
 
 /* ================= DASHBOARD ================= */
 
+let dashboardLoading = false;
+
 async function loadDashboard() {
+    if (dashboardLoading) return;
+    dashboardLoading = true;
+
+    const stats = document.getElementById("dashboardStats");
     const totalVotes = document.getElementById("totalVotes");
+    const registeredVoters = document.getElementById("registeredVoters");
     const turnout = document.getElementById("turnout");
     const leadingCandidate = document.getElementById("leadingCandidate");
-
-    totalVotes.innerText = "Loading…";
-    turnout.innerText = "Loading…";
-    leadingCandidate.innerText = "Loading…";
+    stats.setAttribute("aria-busy", "true");
 
     try {
         const response = await fetch("/admin/dashboard");
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || "Could not load dashboard statistics.");
 
-        totalVotes.innerText = Number(data.totalVotes).toLocaleString();
-        turnout.innerText = `${data.turnout}%`;
-        leadingCandidate.innerText = data.leadingCandidate || "--";
+        totalVotes.textContent = Number(data.totalVotes || 0).toLocaleString();
+        registeredVoters.textContent = Number(data.registeredVoters || 0).toLocaleString();
+        turnout.textContent = Number(data.turnout || 0) + "%";
+        leadingCandidate.textContent = data.leadingCandidate || "--";
+        document.getElementById("dashboardUpdated").textContent =
+            "Updated " + new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(new Date());
     } catch (error) {
-        totalVotes.innerText = "—";
-        turnout.innerText = "—";
-        leadingCandidate.innerText = "—";
+        totalVotes.textContent = "—";
+        registeredVoters.textContent = "—";
+        turnout.textContent = "—";
+        leadingCandidate.textContent = "—";
+        document.getElementById("dashboardUpdated").textContent = "Could not refresh";
         console.error("Dashboard loading error:", error);
+    } finally {
+        stats.setAttribute("aria-busy", "false");
+        dashboardLoading = false;
     }
+
+    loadDashboardElectionStatus();
+}
+
+async function loadDashboardElectionStatus() {
+    const card = document.getElementById("dashboardElectionCard");
+    const title = document.getElementById("dashboardElectionTitle");
+    const detail = document.getElementById("dashboardElectionDetail");
+    const badge = document.getElementById("dashboardStatusBadge");
+    const symbol = document.getElementById("dashboardStatusSymbol");
+
+    try {
+        const response = await fetch("/election-status");
+        const data = await response.json();
+        if (!response.ok) throw new Error("Could not load election status.");
+
+        const status = data.status || "not_configured";
+        card.dataset.status = status;
+        title.textContent = data.title || "No election configured";
+        badge.textContent = {
+            open: "Voting open",
+            scheduled: "Scheduled",
+            closed: "Closed",
+            not_configured: "Not configured"
+        }[status] || "Unavailable";
+        symbol.textContent = status === "open" ? "✓" : status === "scheduled" ? "◷" : status === "closed" ? "×" : "!";
+
+        if (status === "open") {
+            detail.textContent = data.endAt
+                ? "Voters can cast a ballot now. Voting closes " + formatDashboardDate(data.endAt) + "."
+                : "Voters can cast a ballot now.";
+        } else if (status === "scheduled") {
+            detail.textContent = data.startAt
+                ? "Voting is scheduled to open " + formatDashboardDate(data.startAt) + "."
+                : "Voting is scheduled but has not opened.";
+        } else if (status === "closed") {
+            detail.textContent = "Voters cannot cast a ballot while voting is closed.";
+        } else {
+            detail.textContent = "Set an election name and voting window to get started.";
+        }
+    } catch (error) {
+        card.dataset.status = "closed";
+        title.textContent = "Election status unavailable";
+        detail.textContent = "Could not load the current election status.";
+        badge.textContent = "Unavailable";
+        symbol.textContent = "!";
+    }
+}
+
+function formatDashboardDate(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "at the scheduled time";
+    return new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(date);
 }
 
 /* ================= REPORTS ================= */
@@ -271,8 +330,16 @@ function logout() {
 
 /* ================= INITIAL LOAD ================= */
 
+const adminName = sessionStorage.getItem("adminName");
+if (adminName) document.getElementById("adminName").textContent = adminName;
+document.getElementById("refreshDashboardBtn").addEventListener("click", loadDashboard);
+
 window.onload = function () {
-
     showSection("dashboard");
-
 };
+
+setInterval(function () {
+    if (document.getElementById("dashboardSection").style.display !== "none") {
+        loadDashboard();
+    }
+}, 60000);
