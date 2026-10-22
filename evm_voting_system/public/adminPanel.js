@@ -220,11 +220,29 @@ async function filterConstituency() {
 
 /* ================= DASHBOARD ================= */
 
-function loadDashboard() {
+async function loadDashboard() {
+    const totalVotes = document.getElementById("totalVotes");
+    const turnout = document.getElementById("turnout");
+    const leadingCandidate = document.getElementById("leadingCandidate");
 
-    document.getElementById("totalVotes").innerText = "1,25,000";
-    document.getElementById("turnout").innerText = "75%";
-    document.getElementById("leadingParty").innerText = "Party A";
+    totalVotes.innerText = "Loading…";
+    turnout.innerText = "Loading…";
+    leadingCandidate.innerText = "Loading…";
+
+    try {
+        const response = await fetch("/admin/dashboard");
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || "Could not load dashboard statistics.");
+
+        totalVotes.innerText = Number(data.totalVotes).toLocaleString();
+        turnout.innerText = `${data.turnout}%`;
+        leadingCandidate.innerText = data.leadingCandidate || "--";
+    } catch (error) {
+        totalVotes.innerText = "—";
+        turnout.innerText = "—";
+        leadingCandidate.innerText = "—";
+        console.error("Dashboard loading error:", error);
+    }
 }
 
 /* ================= REPORTS ================= */
