@@ -35,7 +35,13 @@ document.addEventListener("DOMContentLoaded", function () {
     loadElectionStatus();
     loadCandidates(state, district, constituency);
     setInterval(updateClock, 30000);
+    setInterval(updateCountdown, 1000);
     setInterval(loadElectionStatus, 60000);
+
+    if (localStorage.getItem("fingerVerified") === "true" && localStorage.getItem("pendingCandidate")) {
+        document.getElementById("actionMessage").textContent = "Fingerprint verified. Submitting your vote…";
+        submitVote();
+    }
 });
 
 function updateClock() {
@@ -100,11 +106,7 @@ async function loadElectionStatus() {
         }
 
         updateVoteButton();
-        if (status === "scheduled" && data.startAt) {
-            countdown.textContent = "Opens in " + formatDuration(new Date(data.startAt).getTime() - Date.now());
-        } else if (status === "open" && data.endAt) {
-            countdown.textContent = "Closes in " + formatDuration(new Date(data.endAt).getTime() - Date.now());
-        }
+        updateCountdown();
     } catch (error) {
         electionIsOpen = false;
         card.dataset.status = "closed";
@@ -114,6 +116,19 @@ async function loadElectionStatus() {
         detail.textContent = "We couldn’t check whether voting is open. Please refresh and try again.";
         countdown.textContent = "";
         updateVoteButton();
+    }
+}
+
+function updateCountdown() {
+    const countdown = document.getElementById("countdown");
+    if (!countdown || !electionStatusData) return;
+
+    if (electionStatusData.status === "scheduled" && electionStatusData.startAt) {
+        countdown.textContent = "Opens in " + formatDuration(new Date(electionStatusData.startAt).getTime() - Date.now());
+    } else if (electionStatusData.status === "open" && electionStatusData.endAt) {
+        countdown.textContent = "Closes in " + formatDuration(new Date(electionStatusData.endAt).getTime() - Date.now());
+    } else {
+        countdown.textContent = "";
     }
 }
 
