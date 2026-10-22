@@ -155,6 +155,9 @@ function loadConstituenciesDropdown() {
 
     constituencySelect.innerHTML =
         '<option value="">Select Constituency</option>';
+    document.getElementById("constituencyTable").replaceChildren();
+    document.getElementById("resultsPanel").hidden = true;
+    showResultsMessage("Choose a constituency", "Select a constituency in " + (districtName || "your district") + " to view candidate results.");
 
     const selectedState = electionData.find(s => s.state === stateName);
 
