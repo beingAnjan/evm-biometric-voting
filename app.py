@@ -105,6 +105,17 @@ def login():
 
         if password == voter["password"]:
 
+            status = election_status()
+            if not status.get("isOpen"):
+                messages = {
+                    "not_configured": "Voting is not available yet.",
+                    "scheduled": "Voting has not started yet.",
+                    "closed": "Voting is currently closed.",
+                }
+                return jsonify({
+                    "message": messages.get(status.get("status"), "Voting is not currently available.")
+                }), 403
+
             # If voter already voted
             if voter.get("hasVoted") is True:
                 return jsonify({
