@@ -237,6 +237,7 @@ def get_admin_dashboard():
 
     return jsonify({
         "totalVotes": total_votes,
+        "registeredVoters": total_voters,
         "turnout": turnout,
         "leadingCandidate": leading_candidate[0]["_id"] if leading_candidate else "--",
     })
