@@ -13,6 +13,7 @@
         <h2>EVM Admin</h2>
         <ul>
             <li onclick="showSection('dashboard')">Dashboard</li>
+            <li onclick="showSection('election')">Election settings</li>
             <li onclick="showSection('constituency')">Constituencies</li>
             <li onclick="showSection('reports')">Reports</li>
             <li onclick="logout()">Logout</li>
@@ -51,6 +52,38 @@
                 <p>This dashboard gives a complete overview of election statistics.</p>
             </div>
 
+        </div>
+
+        <!-- ELECTION SETTINGS -->
+        <div id="electionSection" class="section" style="display:none;">
+            <div class="card election-card">
+                <h3>Election settings</h3>
+                <p class="help-text">Set the voting window and choose whether voting is enabled.</p>
+
+                <form id="electionForm">
+                    <label for="electionTitle">Election name</label>
+                    <input id="electionTitle" type="text" maxlength="100" required placeholder="For example, Student Council Election">
+
+                    <div class="date-fields">
+                        <div>
+                            <label for="electionStart">Voting starts</label>
+                            <input id="electionStart" type="datetime-local" required>
+                        </div>
+                        <div>
+                            <label for="electionEnd">Voting ends</label>
+                            <input id="electionEnd" type="datetime-local" required>
+                        </div>
+                    </div>
+
+                    <label class="toggle-row" for="electionEnabled">
+                        <input id="electionEnabled" type="checkbox">
+                        <span>Enable voting during the scheduled window</span>
+                    </label>
+                    <p id="electionState" class="election-state" aria-live="polite">Loading election settings…</p>
+                    <p id="electionMessage" class="election-message" role="status" aria-live="polite"></p>
+                    <button class="save-button" type="submit">Save election settings</button>
+                </form>
+            </div>
         </div>
 
         <!-- CONSTITUENCIES -->

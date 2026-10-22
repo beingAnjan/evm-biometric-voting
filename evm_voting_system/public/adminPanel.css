@@ -79,6 +79,68 @@ body {
     backdrop-filter: blur(10px);
 }
 
+.election-card { max-width: 760px; }
+.election-card .help-text {
+    color: #cbd5e1;
+    font-size: 14px;
+    font-weight: 400;
+    margin: 8px 0 24px;
+}
+.election-card form > label:not(.toggle-row), .date-fields label {
+    display: block;
+    margin: 16px 0 7px;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+.election-card input[type="text"], .election-card input[type="datetime-local"] {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 10px;
+    background: rgba(15,23,42,0.75);
+    color: white;
+}
+.date-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+.toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 22px 0;
+    cursor: pointer;
+}
+.election-state {
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.08);
+}
+.election-state[data-status="open"] { color: #86efac; }
+.election-state[data-status="closed"] { color: #fca5a5; }
+.election-state[data-status="scheduled"] { color: #fde68a; }
+.election-message {
+    min-height: 22px;
+    margin: 10px 0;
+    color: #cbd5e1;
+}
+.save-button {
+    width: auto;
+    padding: 11px 18px;
+    border: 0;
+    border-radius: 10px;
+    color: white;
+    background: linear-gradient(90deg,#3b82f6,#a855f7);
+    cursor: pointer;
+}
+@media (max-width: 700px) {
+    .container { height: auto; min-height: 100vh; }
+    .sidebar { width: 180px; padding: 20px 12px; }
+    .main { padding: 24px 16px; }
+    .date-fields { grid-template-columns: 1fr; gap: 0; }
+}
+
 /* ================= CARDS ================= */
 
 .cards {
