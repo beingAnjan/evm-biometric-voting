@@ -243,6 +243,103 @@ def get_admin_dashboard():
     })
 
 
+@app.route("/admin/reports", methods=["GET"])
+def get_admin_reports():
+    if session.get("role") != "admin":
+        return jsonify({"message": "Admin login required"}), 401
+
+    vote_groups = votes_col.aggregate([
+        {"$group": {
+            "_id": {
+                "state": "$state",
+                "district": "$district",
+                "constituency": "$constituency",
+                "candidateId": "$candidateId",
+            },
+            "votes": {"$sum": 1},
+        }}
+    ])
+
+    constituency_votes = {}
+    candidate_votes = {}
+    for row in vote_groups:
+        location = row["_id"]
+        key = (
+            location.get("state") or "",
+            location.get("district") or "",
+            location.get("constituency") or "",
+        )
+        candidate_id = str(location.get("candidateId") or "Unknown")
+        constituency_votes[key] = constituency_votes.get(key, 0) + row["votes"]
+        candidate_votes.setdefault(key, {})[candidate_id] = row["votes"]
+
+    voter_groups = voters_col.aggregate([
+        {"$group": {
+            "_id": {
+                "state": "$state",
+                "district": "$district",
+                "constituency": "$constituency",
+            },
+            "voters": {"$sum": 1},
+        }}
+    ])
+
+    registered_voters = {}
+    for row in voter_groups:
+        location = row["_id"]
+        key = (
+            location.get("state") or "",
+            location.get("district") or "",
+            location.get("constituency") or "",
+        )
+        registered_voters[key] = row["voters"]
+
+    candidate_names = {
+        str(candidate.get("candidateId")): candidate.get("name")
+        for candidate in candidates_col.find({}, {"candidateId": 1, "name": 1})
+        if candidate.get("candidateId") is not None and candidate.get("name")
+    }
+
+    close_fights = []
+    for key, totals in candidate_votes.items():
+        ranked = sorted(totals.items(), key=lambda item: (-item[1], item[0]))
+        if len(ranked) < 2:
+            continue
+
+        close_fights.append({
+            "state": key[0],
+            "district": key[1],
+            "constituency": key[2],
+            "leadingCandidate": candidate_names.get(ranked[0][0], ranked[0][0]),
+            "runnerUp": candidate_names.get(ranked[1][0], ranked[1][0]),
+            "margin": ranked[0][1] - ranked[1][1],
+            "totalVotes": constituency_votes.get(key, 0),
+        })
+
+    close_fights.sort(key=lambda fight: (fight["margin"], -fight["totalVotes"]))
+
+    highest_turnout = None
+    for key, voter_count in registered_voters.items():
+        if voter_count == 0:
+            continue
+        vote_count = constituency_votes.get(key, 0)
+        turnout = round((vote_count / voter_count) * 100, 1)
+        if highest_turnout is None or turnout > highest_turnout["turnout"]:
+            highest_turnout = {
+                "state": key[0],
+                "district": key[1],
+                "constituency": key[2],
+                "votes": vote_count,
+                "registeredVoters": voter_count,
+                "turnout": turnout,
+            }
+
+    return jsonify({
+        "closeFights": close_fights[:5],
+        "highestTurnout": highest_turnout,
+    })
+
+
 # ---------------- GET CANDIDATES ----------------
 @app.route("/candidates", methods=["GET"])
 def get_candidates():
