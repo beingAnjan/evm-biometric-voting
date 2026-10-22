@@ -323,6 +323,8 @@ def get_admin_reports():
         if voter_count == 0:
             continue
         vote_count = constituency_votes.get(key, 0)
+        if vote_count == 0:
+            continue
         turnout = round((vote_count / voter_count) * 100, 1)
         if highest_turnout is None or turnout > highest_turnout["turnout"]:
             highest_turnout = {
