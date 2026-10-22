@@ -12,6 +12,7 @@ const stateName = "Andhra Pradesh";
 
 function hideAllSections() {
     document.getElementById("dashboardSection").style.display = "none";
+    document.getElementById("electionSection").style.display = "none";
     document.getElementById("constituencySection").style.display = "none";
     document.getElementById("reportsSection").style.display = "none";
 }
@@ -26,6 +27,12 @@ function showSection(section) {
         loadDashboard();
     }
 
+    if (section === "election") {
+        document.getElementById("pageTitle").innerText = "Election settings";
+        document.getElementById("electionSection").style.display = "block";
+        loadElectionSettings();
+    }
+
     if (section === "constituency") {
         document.getElementById("pageTitle").innerText = "Constituencies";
         document.getElementById("constituencySection").style.display = "block";
@@ -38,6 +45,70 @@ function showSection(section) {
         loadReports();
     }
 }
+
+function toLocalDateTime(value) {
+    if (!value) return "";
+    const date = new Date(value);
+    const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+    return localDate.toISOString().slice(0, 16);
+}
+
+function showElectionState(data) {
+    const state = document.getElementById("electionState");
+    const labels = {
+        not_configured: "No election has been configured yet.",
+        scheduled: "Scheduled — voting is not open yet.",
+        open: "Open — voters can cast a vote.",
+        closed: "Closed — voters cannot cast a vote."
+    };
+    state.textContent = labels[data.status] || labels.not_configured;
+    state.dataset.status = data.status || "not_configured";
+}
+
+async function loadElectionSettings() {
+    const message = document.getElementById("electionMessage");
+    message.textContent = "";
+    try {
+        const response = await fetch("/admin/election");
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || "Could not load election settings.");
+        document.getElementById("electionTitle").value = data.title || "";
+        document.getElementById("electionStart").value = toLocalDateTime(data.startAt);
+        document.getElementById("electionEnd").value = toLocalDateTime(data.endAt);
+        document.getElementById("electionEnabled").checked = Boolean(data.enabled);
+
+        const statusResponse = await fetch("/election-status");
+        showElectionState(await statusResponse.json());
+    } catch (error) {
+        message.textContent = error.message;
+    }
+}
+
+document.getElementById("electionForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const message = document.getElementById("electionMessage");
+    message.textContent = "Saving…";
+    const payload = {
+        title: document.getElementById("electionTitle").value.trim(),
+        startAt: new Date(document.getElementById("electionStart").value).toISOString(),
+        endAt: new Date(document.getElementById("electionEnd").value).toISOString(),
+        enabled: document.getElementById("electionEnabled").checked
+    };
+
+    try {
+        const response = await fetch("/admin/election", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || "Could not save election settings.");
+        showElectionState(data);
+        message.textContent = "Election settings saved.";
+    } catch (error) {
+        message.textContent = error.message;
+    }
+});
 
 /* ================= LOAD JSON DATA ================= */
 
@@ -174,8 +245,9 @@ function loadReports() {
 function logout() {
 
     sessionStorage.removeItem("adminLoggedIn");
-
-    window.location.replace("page.html");
+    fetch("/logout", { method: "POST" }).finally(() => {
+        window.location.replace("page.html");
+    });
 
 }
 

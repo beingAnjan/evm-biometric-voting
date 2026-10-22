@@ -9,6 +9,29 @@ function updateClock(){
 setInterval(updateClock,1000);
 updateClock();
 
+async function loadElectionAvailability() {
+    const statusElement = document.getElementById("electionAvailability");
+    if (!statusElement) return;
+
+    try {
+        const response = await fetch("/election-status");
+        const data = await response.json();
+        const messages = {
+            not_configured: "Voting is not available yet.",
+            scheduled: `Voting is scheduled to open ${new Date(data.startAt).toLocaleString()} (local time).`,
+            open: `Voting is open for ${data.title}.`,
+            closed: "Voting is currently closed."
+        };
+        statusElement.textContent = messages[data.status] || messages.closed;
+        statusElement.dataset.status = data.status || "closed";
+    } catch (error) {
+        statusElement.textContent = "Election status is unavailable.";
+        statusElement.dataset.status = "closed";
+    }
+}
+
+loadElectionAvailability();
+
 
 async function login() {
 

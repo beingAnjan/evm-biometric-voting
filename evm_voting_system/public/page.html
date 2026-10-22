@@ -239,6 +239,16 @@ body{
     margin-bottom:20px;
 }
 
+.login .election-availability {
+    padding: 9px 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.08);
+    font-size: 12px;
+}
+.election-availability[data-status="open"] { color: #86efac; }
+.election-availability[data-status="closed"] { color: #fca5a5; }
+.election-availability[data-status="scheduled"] { color: #fde68a; }
+
 /* Steps */
 .steps{
     display:flex;
@@ -435,6 +445,7 @@ button:hover{
 
         <h2>Voter Login</h2>
         <p>Authenticate to access the secure voting portal</p>
+        <p id="electionAvailability" class="election-availability" aria-live="polite">Checking election status…</p>
 
         <div class="steps">
             <span>STEP 1</span>

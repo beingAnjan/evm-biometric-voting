@@ -1,15 +1,45 @@
-from flask import Flask, request, jsonify, send_file, send_from_directory
-from datetime import datetime
+from flask import Flask, request, jsonify, send_file, send_from_directory, session
+from datetime import datetime, timezone
 
-from db import voters_col, admins_col, candidates_col, votes_col
+from db import voters_col, admins_col, candidates_col, votes_col, elections_col
 from fingerprint_pipeline import bmp_to_json
 from fingerprint_matcher import match_fingerprints
 import os
 
 # Tell Flask to use the "public" folder
 app = Flask(__name__)
+app.secret_key = os.environ.get("FLASK_SECRET_KEY") or os.urandom(32)
 
 PUBLIC_DIR = os.path.join(app.root_path, "evm_voting_system", "public")
+
+
+def election_status():
+    """Return the configured election and whether its voting window is open."""
+    settings = elections_col.find_one({"_id": "current"})
+    if not settings:
+        return {"configured": False, "isOpen": False, "status": "not_configured"}
+
+    now = datetime.now(timezone.utc)
+    start_at = datetime.fromisoformat(settings["startAt"])
+    end_at = datetime.fromisoformat(settings["endAt"])
+    enabled = settings.get("enabled", False)
+
+    if not enabled or now > end_at:
+        status = "closed"
+    elif now < start_at:
+        status = "scheduled"
+    else:
+        status = "open"
+
+    return {
+        "configured": True,
+        "title": settings.get("title", "Election"),
+        "startAt": settings["startAt"],
+        "endAt": settings["endAt"],
+        "enabled": enabled,
+        "isOpen": status == "open",
+        "status": status,
+    }
 
 # ---------------- HOME PAGE ----------------
 @app.route("/")
@@ -57,6 +87,11 @@ def login():
 
     data = request.get_json()
 
+    if not isinstance(data, dict):
+        return jsonify({"message": "Invalid request"}), 400
+
+    session.clear()
+
     userId = data.get("userId")
     password = data.get("password")
 
@@ -97,6 +132,9 @@ def login():
 
         if password == admin["password"]:
 
+            session["role"] = "admin"
+            session["adminId"] = userId
+
             return jsonify({
                 "message": "Admin login success",
                 "role": "admin",
@@ -107,6 +145,68 @@ def login():
             return jsonify({"message": "Invalid password"}), 401
 
     return jsonify({"message": "User not found"}), 404
+
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    session.clear()
+    return jsonify({"message": "Logged out"})
+
+
+@app.route("/election-status", methods=["GET"])
+def get_election_status():
+    return jsonify(election_status())
+
+
+@app.route("/admin/election", methods=["GET", "PUT"])
+def manage_election():
+    if session.get("role") != "admin":
+        return jsonify({"message": "Admin login required"}), 401
+
+    if request.method == "GET":
+        settings = elections_col.find_one({"_id": "current"})
+        return jsonify(settings or {"configured": False, "enabled": False})
+
+    data = request.get_json()
+    if not isinstance(data, dict):
+        return jsonify({"message": "Invalid request"}), 400
+
+    title = str(data.get("title", "")).strip()
+    start_at = data.get("startAt")
+    end_at = data.get("endAt")
+    enabled = data.get("enabled")
+
+    if not title or len(title) > 100:
+        return jsonify({"message": "Enter an election name (up to 100 characters)."}), 400
+    if not isinstance(start_at, str) or not isinstance(end_at, str) or not isinstance(enabled, bool):
+        return jsonify({"message": "Enter valid start and end dates."}), 400
+
+    try:
+        start_dt = datetime.fromisoformat(start_at.replace("Z", "+00:00"))
+        end_dt = datetime.fromisoformat(end_at.replace("Z", "+00:00"))
+        if start_dt.tzinfo is None:
+            start_dt = start_dt.replace(tzinfo=timezone.utc)
+        if end_dt.tzinfo is None:
+            end_dt = end_dt.replace(tzinfo=timezone.utc)
+        start_dt = start_dt.astimezone(timezone.utc)
+        end_dt = end_dt.astimezone(timezone.utc)
+    except ValueError:
+        return jsonify({"message": "Enter valid start and end dates."}), 400
+
+    if end_dt <= start_dt:
+        return jsonify({"message": "The end date must be after the start date."}), 400
+
+    elections_col.update_one(
+        {"_id": "current"},
+        {"$set": {
+            "title": title,
+            "startAt": start_dt.isoformat(),
+            "endAt": end_dt.isoformat(),
+            "enabled": enabled,
+        }},
+        upsert=True,
+    )
+    return jsonify(election_status())
 
 
 # ---------------- GET CANDIDATES ----------------
@@ -131,6 +231,9 @@ def get_candidates():
 # ---------------- CAST VOTE ----------------
 @app.route("/vote", methods=["POST"])
 def cast_vote():
+
+    if not election_status().get("isOpen"):
+        return jsonify({"message": "Voting is currently closed."}), 403
 
     data = request.get_json()
 
