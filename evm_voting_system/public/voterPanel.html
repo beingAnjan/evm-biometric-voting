@@ -1,64 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secure Voting System - Voter Panel</title>
-
-<link rel="stylesheet" href="voterPanel.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f7ff">
+    <title>SecureVote | Voter Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="voterPanel.css">
 </head>
-
 <body>
-
-<header>
-    <div class="logo-section">
-        <div class="logo">✓</div>
-
-        <div class="header-text">
-            <h1>Secure Voting System</h1>
-            <p id="voterName">Logged in as voter</p>
+    <header class="site-header">
+        <a class="brand" href="#" aria-label="SecureVote home">
+            <span class="brand-mark" aria-hidden="true">✓</span>
+            <span><strong>SecureVote</strong><small>VOTER PORTAL</small></span>
+        </a>
+        <div class="header-actions">
+            <div class="voter-chip"><span class="online-dot"></span><span id="voterName">Voter</span></div>
+            <button class="logout-btn" id="logoutBtn" type="button">Log out</button>
         </div>
-    </div>
+    </header>
 
-    <button class="logout-btn" id="logoutBtn">Logout</button>
-</header>
+    <main class="container">
+        <section class="welcome-row">
+            <div>
+                <p class="eyebrow">YOUR VOICE MATTERS</p>
+                <h1>Make your choice.</h1>
+                <p class="welcome-copy">Review the candidates and select the one you want to vote for.</p>
+            </div>
+            <div class="local-time"><span class="time-icon" aria-hidden="true">◷</span><span id="localTime"></span></div>
+        </section>
 
+        <section class="election-card" id="electionCard" data-status="loading" aria-live="polite">
+            <div class="status-symbol" id="statusSymbol" aria-hidden="true">…</div>
+            <div class="election-copy">
+                <p class="eyebrow">ELECTION STATUS</p>
+                <h2 id="electionTitle">Checking election…</h2>
+                <p id="electionDetail">Please wait while we check whether voting is available.</p>
+            </div>
+            <div class="status-side">
+                <span class="status-badge" id="statusBadge">Checking</span>
+                <span class="countdown" id="countdown"></span>
+            </div>
+        </section>
 
-<div class="container">
+        <section class="steps" aria-label="Voting steps">
+            <div class="step active"><span class="step-number">1</span><span>Choose candidate</span></div>
+            <span class="step-line"></span>
+            <div class="step"><span class="step-number">2</span><span>Verify fingerprint</span></div>
+            <span class="step-line"></span>
+            <div class="step"><span class="step-number">3</span><span>Submit vote</span></div>
+        </section>
 
-    <!-- CLOCK -->
-    <div class="utc-box-right">
-        <div class="utc-time-box">
-            <i class="clock-icon fa-regular fa-clock"></i>
-            <span id="utcTime"></span>
+        <section class="candidate-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">YOUR BALLOT</p>
+                    <h2>Select one candidate</h2>
+                    <p class="section-copy" id="locationSummary">Candidates for your constituency</p>
+                </div>
+                <span class="candidate-count" id="candidateCount">Loading candidates…</span>
+            </div>
+
+            <div class="grid" id="candidateGrid" aria-live="polite">
+                <div class="loading-card"><span class="loader"></span><span>Loading candidates…</span></div>
+            </div>
+
+            <div class="selection-note" id="selectionNote" aria-live="polite">
+                <span class="note-icon" aria-hidden="true">i</span>
+                <span>Select a candidate to continue. Your choice will be confirmed before fingerprint verification.</span>
+            </div>
+            <p class="action-message" id="actionMessage" role="status" aria-live="polite"></p>
+
+            <div class="vote-actions">
+                <span class="privacy-note"><span aria-hidden="true">🔒</span> Your selection stays private.</span>
+                <button class="vote-btn" id="voteBtn" type="button" disabled>
+                    Select a candidate <span aria-hidden="true">→</span>
+                </button>
+            </div>
+        </section>
+
+        <footer class="page-footer">
+            <span>SecureVote <span aria-hidden="true">·</span> Your vote is your voice.</span>
+            <span id="constituencyFooter"></span>
+        </footer>
+    </main>
+
+    <dialog class="confirm-dialog" id="confirmDialog" aria-labelledby="confirmTitle">
+        <form method="dialog" class="dialog-close-form">
+            <button class="dialog-close" aria-label="Close confirmation">×</button>
+        </form>
+        <div class="dialog-icon" aria-hidden="true">✓</div>
+        <p class="eyebrow">REVIEW YOUR CHOICE</p>
+        <h2 id="confirmTitle">Is this your candidate?</h2>
+        <div class="review-candidate">
+            <span class="review-avatar" id="reviewAvatar">?</span>
+            <span><strong id="reviewName">Candidate</strong><small id="reviewParty">Party</small></span>
         </div>
-    </div>
+        <p class="dialog-copy">You’ll verify your fingerprint next. Once submitted, your vote cannot be changed.</p>
+        <div class="dialog-actions">
+            <button class="secondary-btn" id="changeChoiceBtn" type="button">Go back</button>
+            <button class="vote-btn" id="confirmChoiceBtn" type="button">Continue <span aria-hidden="true">→</span></button>
+        </div>
+    </dialog>
 
-
-    <!-- INFO -->
-    <div class="info-box">
-        <h2>Cast Your Vote</h2>
-        <p>Select one candidate below. You can only vote once.</p>
-    </div>
-
-
-    <!-- CANDIDATES GRID -->
-    <div class="grid" id="candidateGrid">
-
-        <!-- Candidates will be loaded dynamically here -->
-
-    </div>
-
-
-    <!-- VOTE BUTTON -->
-    <button class="vote-btn" id="voteBtn">Cast My Vote</button>
-
-</div>
-
-
-<script src="voterPanel.js"></script>
-
+    <script src="voterPanel.js"></script>
 </body>
 </html>
