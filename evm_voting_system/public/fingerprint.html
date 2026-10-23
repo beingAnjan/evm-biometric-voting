@@ -61,6 +61,16 @@
         </section>
         <footer class="page-footer">SecureVote <span aria-hidden="true">·</span> Your vote is your voice.</footer>
     </main>
+    <div class="vote-success-overlay" id="voteSuccessOverlay" hidden>
+        <section class="vote-success-card" role="dialog" aria-modal="true" aria-labelledby="voteSuccessTitle" aria-describedby="voteSuccessMessage">
+            <span class="vote-success-icon" aria-hidden="true">✓</span>
+            <p class="vote-success-eyebrow">VOTE RECORDED</p>
+            <h2 id="voteSuccessTitle">Vote cast successfully</h2>
+            <p class="vote-success-message" id="voteSuccessMessage">Your vote has been recorded. You’ll be returned to the login page shortly.</p>
+            <div class="vote-success-progress" aria-hidden="true"><span></span></div>
+            <p class="vote-success-footer">Returning to voter login…</p>
+        </section>
+    </div>
     <script src="fingerprint.js"></script>
 </body>
 </html>
