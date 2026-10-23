@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#f5f7fc">
-    <title>SecureVote | Voter sign in</title>
+    <title>SecureVote | Secure sign in</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -14,29 +14,29 @@
     <header class="site-header">
         <a class="brand" href="page.html" aria-label="SecureVote sign in">
             <span class="brand-mark" aria-hidden="true">✓</span>
-            <span><strong>SecureVote</strong><small>VOTER PORTAL</small></span>
+            <span><strong>SecureVote</strong><small>ELECTION PORTAL</small></span>
         </a>
         <span class="secure-label"><span class="secure-dot" aria-hidden="true"></span>Voter sign in</span>
     </header>
 
     <main class="login-layout">
         <section class="welcome-panel" aria-labelledby="welcomeTitle">
-            <p class="eyebrow">YOUR VOICE MATTERS</p>
-            <h1 id="welcomeTitle">Your vote starts <span>with you.</span></h1>
-            <p class="welcome-copy">Sign in to view your ballot and take part in the election. Your voting steps are simple:</p>
+            <p class="eyebrow">SECUREVOTE ACCESS</p>
+            <h1 id="welcomeTitle">Your election workspace <span>starts here.</span></h1>
+            <p class="welcome-copy">Sign in to continue to your voter ballot or the administrator console.</p>
 
             <ol class="step-list">
                 <li>
                     <span class="step-number">1</span>
-                    <span><strong>Sign in</strong><small>Use your voter ID and password.</small></span>
+                    <span><strong>Voter access</strong><small>Review the ballot and verify your selection.</small></span>
                 </li>
                 <li>
                     <span class="step-number">2</span>
-                    <span><strong>Choose your candidate</strong><small>Review your selection before continuing.</small></span>
+                    <span><strong>Admin access</strong><small>Manage election settings and view reports.</small></span>
                 </li>
                 <li>
                     <span class="step-number">3</span>
-                    <span><strong>Verify and submit</strong><small>Complete fingerprint verification to record your vote.</small></span>
+                    <span><strong>Secure sign in</strong><small>Your account type is detected automatically.</small></span>
                 </li>
             </ol>
 
@@ -45,9 +45,9 @@
 
         <section class="login-card" aria-labelledby="loginTitle">
             <div class="login-icon" aria-hidden="true">↗</div>
-            <p class="eyebrow">VOTER ACCOUNT</p>
+            <p class="eyebrow">ACCOUNT SIGN IN</p>
             <h2 id="loginTitle">Welcome back</h2>
-            <p class="login-copy">Enter your details to continue to your ballot.</p>
+            <p class="login-copy">Use your assigned ID and password to continue.</p>
 
             <div id="electionAvailability" class="election-availability" aria-live="polite">
                 <span class="availability-dot" aria-hidden="true"></span>
@@ -56,8 +56,8 @@
 
             <form id="loginForm" onsubmit="login(event)" novalidate>
                 <div class="form-field">
-                    <label for="userId">Voter ID</label>
-                    <input type="text" id="userId" name="userId" placeholder="Enter your voter ID"
+                    <label for="userId">Voter / Admin ID</label>
+                    <input type="text" id="userId" name="userId" placeholder="Enter your account ID"
                         autocomplete="username" autocapitalize="characters" spellcheck="false" required>
                 </div>
                 <div class="form-field">
@@ -72,7 +72,7 @@
                 </button>
             </form>
 
-            <p class="card-note"><span aria-hidden="true">🔒</span> Sign in to access your personal ballot.</p>
+            <p class="card-note"><span aria-hidden="true">🔒</span> Your account details stay on this device while you sign in.</p>
         </section>
     </main>
 
