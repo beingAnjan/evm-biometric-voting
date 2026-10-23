@@ -478,6 +478,7 @@ function formatDashboardDate(value) {
 async function loadReports() {
     const closeFights = document.getElementById("closeFights");
     const highestTurnout = document.getElementById("highestTurnout");
+    const constituencyTurnout = document.getElementById("constituencyTurnout");
     const fightCount = document.getElementById("reportsFightCount");
     closeFights.replaceChildren(createReportMessage("Loading close races…"));
     highestTurnout.replaceChildren(createReportMessage("Loading turnout…"));
@@ -555,15 +556,82 @@ async function loadReports() {
             highestTurnout.appendChild(card);
         }
 
+        renderTurnoutBreakdown(data.constituencyTurnout, constituencyTurnout);
+
         document.getElementById("reportsUpdated").textContent =
             "Updated " + new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(new Date());
     } catch (error) {
         closeFights.replaceChildren(createReportMessage("Could not load reports. Please try refreshing."));
         highestTurnout.replaceChildren(createReportMessage("Turnout is unavailable right now."));
+        constituencyTurnout.replaceChildren();
+        const errorRow = document.createElement("tr");
+        const errorCell = document.createElement("td");
+        errorCell.colSpan = 5;
+        errorCell.className = "table-empty";
+        errorCell.textContent = "Constituency turnout is unavailable right now.";
+        errorRow.appendChild(errorCell);
+        constituencyTurnout.appendChild(errorRow);
         fightCount.textContent = "";
         document.getElementById("reportsUpdated").textContent = "Could not refresh";
         console.error("Reports loading error:", error);
     }
+}
+
+function renderTurnoutBreakdown(rows, body) {
+    body.replaceChildren();
+    if (!Array.isArray(rows) || rows.length === 0) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 5;
+        cell.className = "table-empty";
+        cell.textContent = "No constituency voter records are available yet.";
+        row.appendChild(cell);
+        body.appendChild(row);
+        return;
+    }
+
+    rows.forEach((item) => {
+        const row = document.createElement("tr");
+        const constituencyCell = document.createElement("td");
+        constituencyCell.className = "turnout-constituency";
+        const name = document.createElement("strong");
+        name.textContent = item.constituency || "Unknown constituency";
+        const area = document.createElement("small");
+        area.textContent = [item.district, item.state].filter(Boolean).join(", ") || "Location unavailable";
+        constituencyCell.append(name, area);
+
+        const registered = Number(item.registeredVoters) || 0;
+        const votes = Number(item.votes) || 0;
+        const notVoted = Number(item.notVoted) || 0;
+        const registeredCell = document.createElement("td");
+        registeredCell.textContent = registered.toLocaleString();
+        const votedCell = document.createElement("td");
+        votedCell.textContent = votes.toLocaleString();
+        const remainingCell = document.createElement("td");
+        remainingCell.textContent = notVoted.toLocaleString();
+
+        const turnoutCell = document.createElement("td");
+        turnoutCell.className = "turnout-cell";
+        if (item.turnout === null || item.turnout === undefined) {
+            turnoutCell.textContent = "No registered voters";
+        } else {
+            const percentage = Number(item.turnout);
+            const label = document.createElement("strong");
+            label.textContent = percentage.toFixed(1) + "%";
+            const track = document.createElement("div");
+            track.className = "turnout-track";
+            track.setAttribute("role", "img");
+            track.setAttribute("aria-label", percentage.toFixed(1) + "% turnout");
+            const fill = document.createElement("div");
+            fill.className = "turnout-track-fill";
+            fill.style.width = Math.max(0, Math.min(percentage, 100)) + "%";
+            track.appendChild(fill);
+            turnoutCell.append(label, track);
+        }
+
+        row.append(constituencyCell, registeredCell, votedCell, remainingCell, turnoutCell);
+        body.appendChild(row);
+    });
 }
 
 function createReportMessage(message) {
