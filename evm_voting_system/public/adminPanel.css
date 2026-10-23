@@ -234,6 +234,7 @@ td { padding: 14px 16px; border-top: 1px solid #eef0f5; color: #4d5a74; }
 .results-empty p { margin: 6px 0 0; color: #909aae; font-size: 11px; }
 .results-panel { overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: white; box-shadow: 0 8px 24px rgba(35,49,91,.04); }
 .results-panel[hidden] { display: none; }
+.results-empty[hidden] { display: none; }
 .results-overview { display: grid; grid-template-columns: 1.5fr 1fr 1.1fr; gap: 14px; padding: 20px; border-bottom: 1px solid #edf0f5; background: linear-gradient(120deg,#fbfcff,#f7f8ff); }
 .results-overview > div { display: grid; align-content: center; gap: 5px; min-width: 0; }
 .result-label { color: #9aa3b4; font-size: 8px; font-weight: 800; letter-spacing: 1px; }
