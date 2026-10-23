@@ -759,9 +759,9 @@ document.getElementById("refreshReportsBtn").addEventListener("click", loadRepor
 document.getElementById("printSummaryBtn").addEventListener("click", printElectionSummary);
 document.getElementById("downloadResultsBtn").addEventListener("click", downloadConstituencyCsv);
 
-window.onload = function () {
-    showSection(getSectionFromLocation(), false);
-};
+// This script is loaded at the end of the page, so the DOM is ready.
+// Initialize now instead of waiting for window.onload and showing the default Dashboard first.
+showSection(getSectionFromLocation(), false);
 
 window.addEventListener("popstate", () => {
     showSection(getSectionFromLocation(), false);
