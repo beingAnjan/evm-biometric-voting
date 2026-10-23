@@ -35,6 +35,8 @@ function showSection(section, updateHistory = true) {
         section = "dashboard";
     }
 
+    document.documentElement.setAttribute("data-admin-section", section);
+
     if (updateHistory && window.location.hash !== "#" + section) {
         window.history.pushState({ adminSection: section }, "", "#" + section);
     }

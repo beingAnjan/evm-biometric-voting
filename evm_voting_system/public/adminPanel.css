@@ -346,3 +346,14 @@ table.turnout-table { min-width: 620px; }
     .report-title-actions { flex-wrap: wrap; gap: 8px; }
     .print-summary-stats { grid-template-columns: 1fr; }
 }
+
+
+/* Select the initial admin section before the page is first painted. */
+html[data-admin-section] #dashboardSection,
+html[data-admin-section] #electionSection,
+html[data-admin-section] #constituencySection,
+html[data-admin-section] #reportsSection { display: none !important; }
+html[data-admin-section="dashboard"] #dashboardSection,
+html[data-admin-section="election"] #electionSection,
+html[data-admin-section="constituency"] #constituencySection,
+html[data-admin-section="reports"] #reportsSection { display: block !important; }

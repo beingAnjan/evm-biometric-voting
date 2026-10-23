@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#f5f7fc">
+    <script>
+        (function () {
+            var sections = ["dashboard", "election", "constituency", "reports"];
+            var requested = window.location.hash.slice(1);
+            var initialSection = sections.indexOf(requested) === -1 ? "dashboard" : requested;
+            document.documentElement.setAttribute("data-admin-section", initialSection);
+        })();
+    </script>
     <title>SecureVote | Admin Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
