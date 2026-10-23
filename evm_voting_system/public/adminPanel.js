@@ -6,6 +6,7 @@ if (sessionStorage.getItem("adminLoggedIn") !== "true") {
 /* ================= GLOBAL DATA ================= */
 
 let electionData = [];
+let currentConstituencyResults = null;
 const stateName = "Andhra Pradesh";
 
 /* ================= SECTION SWITCH ================= */
@@ -141,6 +142,7 @@ async function initializeDropdowns() {
         '<option value="">Select Constituency</option>';
 
     document.getElementById("constituencyTable").replaceChildren();
+    clearConstituencyExport();
     document.getElementById("resultsPanel").hidden = true;
     showResultsMessage("Choose a constituency", "Select a district and constituency to see the candidate vote breakdown.");
 }
@@ -156,6 +158,7 @@ function loadConstituenciesDropdown() {
     constituencySelect.innerHTML =
         '<option value="">Select Constituency</option>';
     document.getElementById("constituencyTable").replaceChildren();
+    clearConstituencyExport();
     document.getElementById("resultsPanel").hidden = true;
     showResultsMessage("Choose a constituency", "Select a constituency in " + (districtName || "your district") + " to view candidate results.");
 
@@ -185,6 +188,7 @@ async function filterConstituency() {
     const resultsEmpty = document.getElementById("resultsEmpty");
 
     resultsPanel.hidden = true;
+    clearConstituencyExport();
     if (!constituency) {
         showResultsMessage("Choose a constituency", "Select a district and constituency to see the candidate vote breakdown.");
         return;
@@ -215,6 +219,26 @@ async function filterConstituency() {
 
         const totalVotes = Number(data.totalVotes) || 0;
         const results = Array.isArray(data.results) ? data.results : [];
+        const exportRows = results.map((result) => {
+            const candidateId = String(result._id || "");
+            const candidate = candidateById.get(candidateId);
+            const votes = Number(result.votes) || 0;
+            return {
+                candidateId: candidateId,
+                name: candidate && candidate.name ? candidate.name : "Candidate " + candidateId,
+                party: candidate && candidate.party ? candidate.party : "",
+                votes: votes,
+                share: totalVotes > 0 ? (votes / totalVotes) * 100 : 0
+            };
+        });
+        currentConstituencyResults = {
+            state: stateName,
+            district: district,
+            constituency: constituency,
+            totalVotes: totalVotes,
+            candidates: exportRows
+        };
+        document.getElementById("downloadResultsBtn").disabled = exportRows.length === 0;
         document.getElementById("resultPlace").textContent = constituency;
         document.getElementById("resultTotalVotes").textContent = totalVotes.toLocaleString();
 
@@ -297,9 +321,57 @@ async function filterConstituency() {
         resultsEmpty.hidden = true;
         resultsPanel.hidden = false;
     } catch (error) {
+        clearConstituencyExport();
         resultsPanel.hidden = true;
         showResultsMessage("Results unavailable", error.message || "Could not load constituency results. Please try again.");
     }
+}
+
+function clearConstituencyExport() {
+    currentConstituencyResults = null;
+    const button = document.getElementById("downloadResultsBtn");
+    if (button) button.disabled = true;
+}
+
+function csvCell(value) {
+    let text = String(value == null ? "" : value);
+    if (/^[\\t\\r\\n ]*[=+\\-@]/.test(text)) text = "'" + text;
+    return '"' + text.replace(/"/g, '""') + '"';
+}
+
+function downloadConstituencyCsv() {
+    if (!currentConstituencyResults || currentConstituencyResults.candidates.length === 0) return;
+
+    const report = currentConstituencyResults;
+    const rows = [[
+        "State", "District", "Constituency", "Candidate", "Party",
+        "Candidate ID", "Votes", "Vote Share (%)", "Total Votes"
+    ]];
+
+    report.candidates.forEach((candidate) => {
+        rows.push([
+            report.state, report.district, report.constituency,
+            candidate.name, candidate.party, candidate.candidateId,
+            candidate.votes, candidate.share.toFixed(1), report.totalVotes
+        ]);
+    });
+
+    const csv = "\\uFEFF" + rows.map((row) => row.map(csvCell).join(",")).join("\\r\\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const safeName = [report.district, report.constituency]
+        .filter(Boolean)
+        .join("-")
+        .replace(/[^a-z0-9_-]+/gi, "-")
+        .replace(/^-+|-+$/g, "") || "constituency-results";
+
+    link.href = url;
+    link.download = safeName + "-results-" + new Date().toISOString().slice(0, 10) + ".csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 function showResultsMessage(title, message) {
@@ -518,6 +590,7 @@ const adminName = sessionStorage.getItem("adminName");
 if (adminName) document.getElementById("adminName").textContent = adminName;
 document.getElementById("refreshDashboardBtn").addEventListener("click", loadDashboard);
 document.getElementById("refreshReportsBtn").addEventListener("click", loadReports);
+document.getElementById("downloadResultsBtn").addEventListener("click", downloadConstituencyCsv);
 
 window.onload = function () {
     showSection("dashboard");
