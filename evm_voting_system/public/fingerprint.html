@@ -2,24 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Fingerprint Verification</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f7ff">
+    <title>SecureVote | Fingerprint verification</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="fingerprint.css">
 </head>
 <body>
-<h1>Working on this page</h1>
-<div class="container">
-    <h2>🔐 Fingerprint Verification</h2>
+    <header class="site-header">
+        <a class="brand" href="voterPanel.html" aria-label="SecureVote voter portal">
+            <span class="brand-mark" aria-hidden="true">✓</span>
+            <span><strong>SecureVote</strong><small>VOTER PORTAL</small></span>
+        </a>
+        <span class="secure-label"><span aria-hidden="true">●</span> Secure verification</span>
+    </header>
 
-    <input type="file" id="fingerprintInput" accept=".png,.jpg,.jpeg,.bmp,.json">
+    <main class="page-shell">
+        <section class="verification-card" aria-labelledby="pageTitle">
+            <div class="step-label"><span>STEP 2 OF 3</span><span>Fingerprint check</span></div>
+            <div class="progress-track" aria-hidden="true"><span></span></div>
 
-    <br><br>
+            <div class="intro">
+                <div class="fingerprint-icon" aria-hidden="true">◎</div>
+                <p class="eyebrow">CONFIRM YOUR IDENTITY</p>
+                <h1 id="pageTitle">Upload your fingerprint image</h1>
+                <p class="intro-copy">Choose a clear image of the same fingerprint registered to your voter account. We’ll check it before your vote can be submitted.</p>
+            </div>
 
-    <button onclick="uploadFingerprint()">Verify Fingerprint</button>
+            <form id="fingerprintForm" novalidate>
+                <input id="fingerprintInput" name="fingerprint" type="file" accept=".png,.jpg,.jpeg,.bmp,image/png,image/jpeg,image/bmp" hidden>
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon" aria-hidden="true">↑</div>
+                    <strong id="fileTitle">Choose a fingerprint image</strong>
+                    <span id="fileHint">PNG, JPG, JPEG, or BMP · up to 2 MB</span>
+                    <button class="browse-button" id="browseButton" type="button">Browse files</button>
+                    <img id="imagePreview" alt="Preview of selected fingerprint image" hidden>
+                    <button class="remove-file" id="removeFileButton" type="button" hidden>Remove image</button>
+                </div>
 
-    <p id="status"></p>
-</div>
+                <div class="privacy-note">
+                    <span aria-hidden="true">🔒</span>
+                    <span>Your image is processed for this verification and is not saved as a new fingerprint record.</span>
+                </div>
 
-<script src="fingerprint.js"></script>
+                <p class="status-message" id="statusMessage" role="status" aria-live="polite"></p>
 
+                <div class="form-actions">
+                    <a class="back-button" href="voterPanel.html">Back to ballot</a>
+                    <button class="verify-button" id="verifyButton" type="submit" disabled>
+                        <span id="verifyButtonText">Verify fingerprint</span><span aria-hidden="true">→</span>
+                    </button>
+                </div>
+            </form>
+
+            <p class="help-copy">Having trouble? Use a clear, well-lit image with the full fingerprint in view.</p>
+        </section>
+        <footer class="page-footer">SecureVote <span aria-hidden="true">·</span> Your vote is your voice.</footer>
+    </main>
+    <script src="fingerprint.js"></script>
 </body>
 </html>
