@@ -12,10 +12,10 @@ const stateName = "Andhra Pradesh";
 /* ================= SECTION SWITCH ================= */
 
 function hideAllSections() {
-    document.getElementById("dashboardSection").style.display = "none";
-    document.getElementById("electionSection").style.display = "none";
-    document.getElementById("constituencySection").style.display = "none";
-    document.getElementById("reportsSection").style.display = "none";
+    document.getElementById("dashboardSection").style.setProperty("display", "none", "important");
+    document.getElementById("electionSection").style.setProperty("display", "none", "important");
+    document.getElementById("constituencySection").style.setProperty("display", "none", "important");
+    document.getElementById("reportsSection").style.setProperty("display", "none", "important");
 }
 
 const adminSectionTitles = {
@@ -57,7 +57,7 @@ function showSection(section, updateHistory = true) {
     hideAllSections();
 
     document.getElementById("pageTitle").innerText = adminSectionTitles[section];
-    document.getElementById(section + "Section").style.display = "block";
+    document.getElementById(section + "Section").style.setProperty("display", "block", "important");
 
     document.querySelectorAll(".nav-item[data-section]").forEach((item) => {
         item.classList.toggle("active", item.dataset.section === section);
@@ -776,9 +776,22 @@ document.getElementById("downloadResultsBtn").addEventListener("click", download
 // Initialize now instead of waiting for window.onload and showing the default Dashboard first.
 showSection(getSectionFromLocation(), false);
 
-window.addEventListener("popstate", () => {
-    showSection(getSectionFromLocation(), false);
-});
+function restoreSectionFromLocation() {
+    const section = getSectionFromLocation();
+    const target = document.getElementById(section + "Section");
+    if (
+        document.documentElement.getAttribute("data-admin-section") !== section ||
+        !target ||
+        window.getComputedStyle(target).display === "none" ||
+        document.getElementById("pageTitle").textContent !== adminSectionTitles[section]
+    ) {
+        showSection(section, false);
+    }
+}
+
+window.addEventListener("popstate", restoreSectionFromLocation);
+window.addEventListener("hashchange", restoreSectionFromLocation);
+window.addEventListener("pageshow", restoreSectionFromLocation);
 
 setInterval(function () {
     if (document.getElementById("dashboardSection").style.display !== "none") {
