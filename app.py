@@ -336,9 +336,32 @@ def get_admin_reports():
                 "turnout": turnout,
             }
 
+    constituency_turnout = []
+    for key in set(registered_voters) | set(constituency_votes):
+        voter_count = registered_voters.get(key, 0)
+        vote_count = constituency_votes.get(key, 0)
+        constituency_turnout.append({
+            "state": key[0],
+            "district": key[1],
+            "constituency": key[2],
+            "registeredVoters": voter_count,
+            "votes": vote_count,
+            "notVoted": max(voter_count - vote_count, 0),
+            "turnout": round((vote_count / voter_count) * 100, 1) if voter_count else None,
+        })
+
+    constituency_turnout.sort(key=lambda item: (
+        item["turnout"] is None,
+        -(item["turnout"] or 0),
+        -item["votes"],
+        item["constituency"].lower(),
+        item["district"].lower(),
+    ))
+
     return jsonify({
         "closeFights": close_fights[:5],
         "highestTurnout": highest_turnout,
+        "constituencyTurnout": constituency_turnout,
     })
 
 
