@@ -560,6 +560,7 @@ async function loadReports() {
 
         document.getElementById("reportsUpdated").textContent =
             "Updated " + new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(new Date());
+        return true;
     } catch (error) {
         closeFights.replaceChildren(createReportMessage("Could not load reports. Please try refreshing."));
         highestTurnout.replaceChildren(createReportMessage("Turnout is unavailable right now."));
@@ -574,8 +575,64 @@ async function loadReports() {
         fightCount.textContent = "";
         document.getElementById("reportsUpdated").textContent = "Could not refresh";
         console.error("Reports loading error:", error);
+        return false;
     }
 }
+
+async function printElectionSummary() {
+    const button = document.getElementById("printSummaryBtn");
+    const originalLabel = button.innerHTML;
+    button.disabled = true;
+    button.textContent = "Preparing…";
+
+    try {
+        const reportsLoaded = await loadReports();
+        if (!reportsLoaded) throw new Error("Reports could not be refreshed. Please try again before printing.");
+
+        const [dashboardResponse, statusResponse] = await Promise.all([
+            fetch("/admin/dashboard"),
+            fetch("/election-status")
+        ]);
+        const [dashboard, election] = await Promise.all([
+            dashboardResponse.json(),
+            statusResponse.json()
+        ]);
+        if (!dashboardResponse.ok) throw new Error(dashboard.message || "Could not load participation totals.");
+        if (!statusResponse.ok) throw new Error(election.message || "Could not load election status.");
+
+        const statusLabels = {
+            open: "Voting open",
+            scheduled: "Scheduled",
+            closed: "Closed",
+            not_configured: "Not configured"
+        };
+        document.getElementById("printElectionTitle").textContent = election.title || "Election summary";
+        document.getElementById("printElectionStatus").textContent =
+            "Status: " + (statusLabels[election.status] || "Unavailable");
+        document.getElementById("printElectionWindow").textContent =
+            election.startAt && election.endAt
+                ? "Voting window: " + formatDashboardDate(election.startAt) + " – " + formatDashboardDate(election.endAt)
+                : "Voting window: Not configured";
+        document.getElementById("printGeneratedAt").textContent =
+            "Prepared: " + new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date());
+        document.getElementById("printTotalVotes").textContent = Number(dashboard.totalVotes || 0).toLocaleString();
+        document.getElementById("printRegisteredVoters").textContent = Number(dashboard.registeredVoters || 0).toLocaleString();
+        document.getElementById("printOverallTurnout").textContent = Number(dashboard.turnout || 0) + "%";
+
+        document.body.classList.add("printing-summary");
+        window.print();
+    } catch (error) {
+        const updated = document.getElementById("reportsUpdated");
+        updated.textContent = error.message || "Could not prepare the summary";
+    } finally {
+        button.disabled = false;
+        button.innerHTML = originalLabel;
+    }
+}
+
+window.addEventListener("afterprint", () => {
+    document.body.classList.remove("printing-summary");
+});
 
 function renderTurnoutBreakdown(rows, body) {
     body.replaceChildren();
@@ -658,6 +715,7 @@ const adminName = sessionStorage.getItem("adminName");
 if (adminName) document.getElementById("adminName").textContent = adminName;
 document.getElementById("refreshDashboardBtn").addEventListener("click", loadDashboard);
 document.getElementById("refreshReportsBtn").addEventListener("click", loadReports);
+document.getElementById("printSummaryBtn").addEventListener("click", printElectionSummary);
 document.getElementById("downloadResultsBtn").addEventListener("click", downloadConstituencyCsv);
 
 window.onload = function () {
