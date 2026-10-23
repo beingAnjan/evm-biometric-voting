@@ -33,7 +33,9 @@ async function loadElectionAvailability() {
 loadElectionAvailability();
 
 
-async function login() {
+async function login(event) {
+
+    if (event) event.preventDefault();
 
     const userIdInput = document.getElementById("userId");
     const passwordInput = document.getElementById("password");
@@ -55,7 +57,6 @@ async function login() {
         return;
     }
 
-    console.log("Trying login:", userId);
 
     try {
 
@@ -72,7 +73,6 @@ async function login() {
 
         const data = await response.json();
 
-        console.log("Server response:", data);
 
         if (response.ok) {
 
@@ -144,6 +144,4 @@ async function login() {
 
     }
 
-    userIdInput.value="";
-    passwordInput.value="";
 }
