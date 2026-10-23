@@ -282,3 +282,21 @@ td { padding: 14px 16px; border-top: 1px solid #eef0f5; color: #4d5a74; }
     .candidate-results-heading { align-items: flex-start; }
     .result-tools { align-items: flex-end; flex-direction: column-reverse; }
 }
+
+.turnout-breakdown-card { grid-column: 1 / -1; min-width: 0; }
+.turnout-table-wrap { margin-top: 14px; overflow-x: auto; }
+table.turnout-table { min-width: 620px; }
+.turnout-table th:first-child, .turnout-table td:first-child { padding-left: 0; }
+.turnout-table th:last-child, .turnout-table td:last-child { padding-right: 0; }
+.turnout-table td { vertical-align: middle; }
+.turnout-constituency strong, .turnout-constituency small { display: block; }
+.turnout-constituency strong { color: #35415c; font-size: 12px; }
+.turnout-constituency small { margin-top: 4px; color: #929caf; font-size: 10px; }
+.turnout-cell { min-width: 130px; }
+.turnout-cell strong { color: #168257; font: 700 11px "Manrope",sans-serif; }
+.turnout-track { height: 6px; margin-top: 7px; overflow: hidden; border-radius: 99px; background: #edf0f6; }
+.turnout-track-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg,#20a271,#6cc99e); }
+@media (max-width: 700px) {
+    .turnout-breakdown-card { grid-column: auto; }
+    .turnout-breakdown-card { padding: 16px; }
+}
