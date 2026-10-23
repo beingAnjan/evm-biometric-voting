@@ -22,10 +22,15 @@ async function loadElectionAvailability() {
             open: `Voting is open for ${data.title}.`,
             closed: "Voting is currently closed."
         };
-        statusElement.textContent = messages[data.status] || messages.closed;
+        const message = messages[data.status] || messages.closed;
+        const messageSpan = statusElement.querySelector("span:last-child");
+        if (messageSpan) messageSpan.textContent = message;
+        else statusElement.textContent = message;
         statusElement.dataset.status = data.status || "closed";
     } catch (error) {
-        statusElement.textContent = "Election status is unavailable.";
+        const messageSpan = statusElement.querySelector("span:last-child");
+        if (messageSpan) messageSpan.textContent = "Election status is unavailable.";
+        else statusElement.textContent = "Election status is unavailable.";
         statusElement.dataset.status = "closed";
     }
 }
@@ -33,7 +38,9 @@ async function loadElectionAvailability() {
 loadElectionAvailability();
 
 
-async function login() {
+async function login(event) {
+
+    if (event) event.preventDefault();
 
     const userIdInput = document.getElementById("userId");
     const passwordInput = document.getElementById("password");
@@ -55,7 +62,6 @@ async function login() {
         return;
     }
 
-    console.log("Trying login:", userId);
 
     try {
 
@@ -72,7 +78,6 @@ async function login() {
 
         const data = await response.json();
 
-        console.log("Server response:", data);
 
         if (response.ok) {
 
@@ -144,6 +149,4 @@ async function login() {
 
     }
 
-    userIdInput.value="";
-    passwordInput.value="";
 }
