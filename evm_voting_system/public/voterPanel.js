@@ -314,7 +314,6 @@ async function submitVote() {
             return;
         }
 
-        document.getElementById("actionMessage").textContent = "Your vote has been recorded. Thank you for participating.";
         [
             "voterLoggedIn", "voterName", "state", "district", "constituency",
             "voterId", "fingerVerified", "pendingCandidate"
@@ -322,7 +321,7 @@ async function submitVote() {
             localStorage.removeItem(key);
         });
         document.getElementById("voteBtn").disabled = true;
-        window.location.replace("page.html");
+        showVoteSuccessCard();
     } catch (error) {
         document.getElementById("actionMessage").textContent = "Could not connect to the server. Please try again.";
     } finally {
@@ -330,4 +329,15 @@ async function submitVote() {
         button.disabled = false;
         button.textContent = "Continue";
     }
+}
+function showVoteSuccessCard() {
+    const overlay = document.getElementById("voteSuccessOverlay");
+    if (!overlay) {
+        window.location.replace("page.html");
+        return;
+    }
+    overlay.hidden = false;
+    window.setTimeout(function () {
+        window.location.replace("page.html");
+    }, 2300);
 }
