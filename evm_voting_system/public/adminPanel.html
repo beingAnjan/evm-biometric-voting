@@ -196,8 +196,23 @@
                     <h2>Reports &amp; analytics</h2>
                     <p>Live summaries calculated from votes and registered voters.</p>
                 </div>
-                <div class="report-title-actions"><span id="reportsUpdated" class="updated-label">Not refreshed yet</span><button class="refresh-btn" id="refreshReportsBtn" type="button"><span aria-hidden="true">↻</span> Refresh</button></div>
+                <div class="report-title-actions"><span id="reportsUpdated" class="updated-label">Not refreshed yet</span><button class="refresh-btn" id="refreshReportsBtn" type="button"><span aria-hidden="true">↻</span> Refresh</button><button class="print-btn" id="printSummaryBtn" type="button"><span aria-hidden="true">▤</span> Print summary</button></div>
             </div>
+            <section id="printSummary" class="print-only-summary" aria-label="Printable election summary">
+                <p class="eyebrow">SECUREVOTE · ELECTION SUMMARY</p>
+                <h2 id="printElectionTitle">Election summary</h2>
+                <div class="print-election-meta">
+                    <span id="printElectionStatus">Status unavailable</span>
+                    <span id="printElectionWindow">Voting window unavailable</span>
+                    <span id="printGeneratedAt">Snapshot time unavailable</span>
+                </div>
+                <div class="print-summary-stats">
+                    <div><span>Total votes</span><strong id="printTotalVotes">—</strong></div>
+                    <div><span>Registered voters</span><strong id="printRegisteredVoters">—</strong></div>
+                    <div><span>Overall turnout</span><strong id="printOverallTurnout">—</strong></div>
+                </div>
+                <p class="print-summary-note">This summary contains aggregate figures only. Counts reflect data recorded when this report was prepared and may change while voting remains open.</p>
+            </section>
             <div class="report-grid">
                 <article class="report-card">
                     <div class="report-icon">⇄</div>
