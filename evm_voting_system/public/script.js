@@ -89,6 +89,10 @@ async function login() {
 
             if (data.role === "voter") {
 
+                // A new login always starts a fresh ballot and fingerprint check.
+                ["fingerVerified", "pendingCandidate"].forEach(function (key) {
+                    localStorage.removeItem(key);
+                });
                 localStorage.setItem("voterLoggedIn","true");
                 localStorage.setItem("voterName",data.name);
                 localStorage.setItem("state",data.state);
