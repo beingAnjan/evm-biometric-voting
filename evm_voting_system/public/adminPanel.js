@@ -335,7 +335,7 @@ function clearConstituencyExport() {
 
 function csvCell(value) {
     let text = String(value == null ? "" : value);
-    if (/^[\\t\\r\\n ]*[=+\\-@]/.test(text)) text = "'" + text;
+    if (/^\s*[=+\-@]/.test(text)) text = "'" + text;
     return '"' + text.replace(/"/g, '""') + '"';
 }
 
@@ -356,7 +356,7 @@ function downloadConstituencyCsv() {
         ]);
     });
 
-    const csv = "\\uFEFF" + rows.map((row) => row.map(csvCell).join(",")).join("\\r\\n");
+    const csv = "\uFEFF" + rows.map((row) => row.map(csvCell).join(",")).join("\r\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
