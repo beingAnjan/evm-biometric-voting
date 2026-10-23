@@ -322,7 +322,7 @@ async function submitVote() {
             localStorage.removeItem(key);
         });
         document.getElementById("voteBtn").disabled = true;
-        setTimeout(function () { window.location.replace("page.html"); }, 1800);
+        window.location.replace("page.html");
     } catch (error) {
         document.getElementById("actionMessage").textContent = "Could not connect to the server. Please try again.";
     } finally {
