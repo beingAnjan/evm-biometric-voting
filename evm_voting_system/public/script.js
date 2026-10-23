@@ -6,8 +6,11 @@ function updateClock(){
     document.getElementById("clock").innerText = `${h}:${m}:${s}`;
 }
 
-setInterval(updateClock,1000);
-updateClock();
+// The shared script also powers pages without a clock (such as the sign-in page).
+if (document.getElementById("clock")) {
+    setInterval(updateClock, 1000);
+    updateClock();
+}
 
 async function loadElectionAvailability() {
     const statusElement = document.getElementById("electionAvailability");
@@ -31,7 +34,7 @@ async function loadElectionAvailability() {
         const messageSpan = statusElement.querySelector("span:last-child");
         if (messageSpan) messageSpan.textContent = "Election status is unavailable.";
         else statusElement.textContent = "Election status is unavailable.";
-        statusElement.dataset.status = "closed";
+        statusElement.dataset.status = "unavailable";
     }
 }
 
