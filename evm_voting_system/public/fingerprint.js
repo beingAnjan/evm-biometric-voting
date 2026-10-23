@@ -123,13 +123,36 @@ async function verifyFingerprint(event) {
             return;
         }
 
-        localStorage.setItem("fingerVerified", "true");
-        setStatus("Fingerprint verified. Returning to your ballot…", "success");
-        buttonText.textContent = "Verified";
+        const voterName = localStorage.getItem("voterName");
+        const candidateId = localStorage.getItem("pendingCandidate");
+        if (!voterName || !candidateId) {
+            setStatus("Your ballot session has expired. Please sign in again.", "error");
+            window.setTimeout(function () { window.location.replace("page.html"); }, 1200);
+            return;
+        }
 
-        window.setTimeout(function () {
-            window.location.replace("voterPanel.html");
-        }, 900);
+        setStatus("Fingerprint verified. Recording your vote…", "loading");
+        const voteResponse = await fetch("/vote", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ voterName: voterName, candidateId: candidateId })
+        });
+        const voteResult = await voteResponse.json();
+
+        if (!voteResponse.ok) {
+            setStatus(voteResult.message || "Your vote could not be recorded. Please try again.", "error");
+            return;
+        }
+
+        [
+            "voterLoggedIn", "voterName", "state", "district", "constituency",
+            "voterId", "fingerVerified", "pendingCandidate"
+        ].forEach(function (key) {
+            localStorage.removeItem(key);
+        });
+        setStatus("Your vote has been recorded. Returning to sign in…", "success");
+        window.location.replace("page.html");
+        return;
     } catch (error) {
         setStatus("Could not connect to the server. Check your connection and try again.", "error");
     } finally {
