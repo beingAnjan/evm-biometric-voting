@@ -12,6 +12,20 @@
             document.documentElement.setAttribute("data-admin-section", initialSection);
         })();
     </script>
+    <style>
+        html[data-admin-section] #dashboardSection,
+        html[data-admin-section] #electionSection,
+        html[data-admin-section] #constituencySection,
+        html[data-admin-section] #reportsSection {
+            display: none !important;
+        }
+        html[data-admin-section="dashboard"] #dashboardSection,
+        html[data-admin-section="election"] #electionSection,
+        html[data-admin-section="constituency"] #constituencySection,
+        html[data-admin-section="reports"] #reportsSection {
+            display: block !important;
+        }
+    </style>
     <title>SecureVote | Admin Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
