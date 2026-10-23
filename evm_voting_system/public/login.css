@@ -68,8 +68,12 @@ body {
 .availability-dot { flex: 0 0 auto; width: 8px; height: 8px; margin-top: 3px; border-radius: 50%; background: #9aa4b8; }
 .election-availability[data-status="open"] { border-color: #d9f0e5; color: #17734d; background: #f0faf5; }
 .election-availability[data-status="open"] .availability-dot { background: #20a775; }
-.election-availability[data-status="closed"] { border-color: #f4e2d8; color: #a54f36; background: #fff8f4; }
-.election-availability[data-status="closed"] .availability-dot { background: #d17b56; }
+.election-availability[data-status="closed"] { border-color: #fecdca; color: #b42318; background: #fff1f0; }
+.election-availability[data-status="closed"] .availability-dot { background: #d92d20; }
+.election-availability[data-status="unavailable"],
+.election-availability[data-status="not_configured"] { border-color: #e9ecf4; color: #667085; background: #f8f9fc; }
+.election-availability[data-status="unavailable"] .availability-dot,
+.election-availability[data-status="not_configured"] .availability-dot { background: #98a2b3; }
 .election-availability[data-status="scheduled"] { border-color: #f2e8ca; color: #89681c; background: #fffbef; }
 .election-availability[data-status="scheduled"] .availability-dot { background: #d7a53c; }
 .form-field { margin-top: 15px; }
