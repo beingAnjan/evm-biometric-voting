@@ -267,3 +267,18 @@ td { padding: 14px 16px; border-top: 1px solid #eef0f5; color: #4d5a74; }
     .result-share { width: 39px; }
     .result-track { margin-left: 39px; }
 }
+
+.result-tools { display: flex; align-items: center; gap: 9px; }
+.download-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 35px;
+    padding: 0 11px; border: 1px solid #dce2f0; border-radius: 9px; color: #5263ca;
+    background: #fff; font-size: 10px; font-weight: 800; white-space: nowrap; cursor: pointer;
+    transition: .16s ease;
+}
+.download-btn:hover:not(:disabled) { border-color: #bbc6f7; background: #f6f7ff; }
+.download-btn span { font-size: 15px; }
+.download-btn:disabled { color: #a4adbf; border-color: #e8ebf2; background: #f7f8fb; cursor: not-allowed; }
+@media (max-width: 700px) {
+    .candidate-results-heading { align-items: flex-start; }
+    .result-tools { align-items: flex-end; flex-direction: column-reverse; }
+}
