@@ -27,7 +27,15 @@ const adminSectionTitles = {
 
 function getSectionFromLocation() {
     const section = window.location.hash.slice(1);
-    return Object.prototype.hasOwnProperty.call(adminSectionTitles, section) ? section : "dashboard";
+    if (Object.prototype.hasOwnProperty.call(adminSectionTitles, section)) return section;
+
+    try {
+        const savedSection = sessionStorage.getItem("adminSection");
+        if (Object.prototype.hasOwnProperty.call(adminSectionTitles, savedSection)) return savedSection;
+    } catch (error) {
+        // The dashboard is the safe default when storage is unavailable.
+    }
+    return "dashboard";
 }
 
 function showSection(section, updateHistory = true) {
@@ -36,6 +44,11 @@ function showSection(section, updateHistory = true) {
     }
 
     document.documentElement.setAttribute("data-admin-section", section);
+    try {
+        sessionStorage.setItem("adminSection", section);
+    } catch (error) {
+        // Section navigation still works when storage is unavailable.
+    }
 
     if (updateHistory && window.location.hash !== "#" + section) {
         window.history.pushState({ adminSection: section }, "", "#" + section);

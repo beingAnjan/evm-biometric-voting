@@ -8,7 +8,15 @@
         (function () {
             var sections = ["dashboard", "election", "constituency", "reports"];
             var requested = window.location.hash.slice(1);
-            var initialSection = sections.indexOf(requested) === -1 ? "dashboard" : requested;
+            var savedSection = "";
+            try {
+                savedSection = window.sessionStorage.getItem("adminSection") || "";
+            } catch (error) {
+                // The URL hash remains the fallback when storage is unavailable.
+            }
+            var initialSection = sections.indexOf(requested) !== -1
+                ? requested
+                : sections.indexOf(savedSection) !== -1 ? savedSection : "dashboard";
             document.documentElement.setAttribute("data-admin-section", initialSection);
         })();
     </script>
