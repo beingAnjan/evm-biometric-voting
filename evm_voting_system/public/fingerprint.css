@@ -99,3 +99,35 @@ h1 { margin: 0; font: 800 clamp(23px,4vw,29px)/1.2 "Manrope",sans-serif; letter-
     .verify-button { width: 100%; }
     .back-button { padding: 6px; text-align: center; }
 }
+
+
+/* Vote success confirmation */
+.vote-success-overlay[hidden] { display: none; }
+.vote-success-overlay {
+    position: fixed; z-index: 10000; inset: 0; display: grid; place-items: center;
+    padding: 20px; background: rgba(19, 27, 52, .48); backdrop-filter: blur(6px);
+    animation: vote-overlay-in .2s ease-out;
+}
+.vote-success-card {
+    width: min(100%, 430px); padding: 34px 30px 26px; border: 1px solid #e5ebf3;
+    border-radius: 24px; color: #17213a; background: #fff; text-align: center;
+    box-shadow: 0 28px 90px rgba(17, 28, 65, .24); animation: vote-card-in .28s ease-out;
+}
+.vote-success-icon {
+    display: grid; place-items: center; width: 66px; height: 66px; margin: 0 auto 18px;
+    border-radius: 22px; color: #fff; background: linear-gradient(145deg, #20b47d, #15966a);
+    box-shadow: 0 10px 25px rgba(32, 180, 125, .24); font-size: 34px; font-weight: 800;
+}
+.vote-success-eyebrow { margin: 0 0 8px; color: #15966a; font-size: 10px; font-weight: 800; letter-spacing: 1.7px; }
+.vote-success-card h2 { margin: 0; color: #17213a; font: 800 23px/1.25 "Manrope", sans-serif; letter-spacing: -.6px; }
+.vote-success-message { margin: 11px auto 20px; max-width: 330px; color: #6c7892; font-size: 13px; line-height: 1.6; }
+.vote-success-progress { height: 5px; overflow: hidden; border-radius: 5px; background: #e9f3ee; }
+.vote-success-progress span { display: block; width: 100%; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#20b47d,#61d2a5); transform-origin: left; animation: vote-progress 2.3s linear forwards; }
+.vote-success-footer { margin: 12px 0 0; color: #8993a8; font-size: 11px; font-weight: 600; }
+@keyframes vote-overlay-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes vote-card-in { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes vote-progress { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@media (prefers-reduced-motion: reduce) {
+    .vote-success-overlay, .vote-success-card { animation: none; }
+    .vote-success-progress span { animation-duration: .01ms; }
+}

@@ -150,8 +150,7 @@ async function verifyFingerprint(event) {
         ].forEach(function (key) {
             localStorage.removeItem(key);
         });
-        setStatus("Your vote has been recorded. Returning to sign in…", "success");
-        window.location.replace("page.html");
+        showVoteSuccessCard();
         return;
     } catch (error) {
         setStatus("Could not connect to the server. Check your connection and try again.", "error");
@@ -167,4 +166,16 @@ function setStatus(message, state) {
     const status = document.getElementById("statusMessage");
     status.textContent = message;
     status.className = "status-message" + (state ? " " + state : "");
+}
+
+function showVoteSuccessCard() {
+    const overlay = document.getElementById("voteSuccessOverlay");
+    if (!overlay) {
+        window.location.replace("page.html");
+        return;
+    }
+    overlay.hidden = false;
+    window.setTimeout(function () {
+        window.location.replace("page.html");
+    }, 2300);
 }
