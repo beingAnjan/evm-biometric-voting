@@ -18,16 +18,30 @@ function hideAllSections() {
     document.getElementById("reportsSection").style.display = "none";
 }
 
-function showSection(section) {
+const adminSectionTitles = {
+    dashboard: "Dashboard",
+    election: "Election settings",
+    constituency: "Constituencies",
+    reports: "Reports & analytics"
+};
+
+function getSectionFromLocation() {
+    const section = window.location.hash.slice(1);
+    return Object.prototype.hasOwnProperty.call(adminSectionTitles, section) ? section : "dashboard";
+}
+
+function showSection(section, updateHistory = true) {
+    if (!Object.prototype.hasOwnProperty.call(adminSectionTitles, section)) {
+        section = "dashboard";
+    }
+
+    if (updateHistory && window.location.hash !== "#" + section) {
+        window.history.pushState({ adminSection: section }, "", "#" + section);
+    }
+
     hideAllSections();
 
-    const titles = {
-        dashboard: "Dashboard",
-        election: "Election settings",
-        constituency: "Constituencies",
-        reports: "Reports & analytics"
-    };
-    document.getElementById("pageTitle").innerText = titles[section] || "Dashboard";
+    document.getElementById("pageTitle").innerText = adminSectionTitles[section];
     document.getElementById(section + "Section").style.display = "block";
 
     document.querySelectorAll(".nav-item[data-section]").forEach((item) => {
@@ -120,38 +134,48 @@ async function loadElectionData() {
 /* ================= INITIALIZE DISTRICTS ================= */
 
 async function initializeDropdowns() {
-
     await loadElectionData();
 
     const districtSelect = document.getElementById("districtSelect");
-
     districtSelect.innerHTML = '<option value="">Select District</option>';
 
     const selectedState = electionData.find(s => s.state === stateName);
-
     if (!selectedState) return;
 
-    selectedState.districts.forEach(d => {
-
-        districtSelect.innerHTML +=
-            `<option value="${d.district}">${d.district}</option>`;
-
+    selectedState.districts.forEach((district) => {
+        const option = document.createElement("option");
+        option.value = district.district;
+        option.textContent = district.district;
+        districtSelect.appendChild(option);
     });
+
+    const savedDistrict = sessionStorage.getItem("adminDistrict");
+    if (savedDistrict && Array.from(districtSelect.options).some((option) => option.value === savedDistrict)) {
+        districtSelect.value = savedDistrict;
+    } else {
+        sessionStorage.removeItem("adminDistrict");
+        sessionStorage.removeItem("adminConstituency");
+    }
 
     document.getElementById("constituencySelect").innerHTML =
         '<option value="">Select Constituency</option>';
-
     document.getElementById("constituencyTable").replaceChildren();
     clearConstituencyExport();
     document.getElementById("resultsPanel").hidden = true;
     showResultsMessage("Choose a constituency", "Select a district and constituency to see the candidate vote breakdown.");
+
+    if (districtSelect.value) loadConstituenciesDropdown(true);
 }
 
 /* ================= LOAD CONSTITUENCIES ================= */
 
-function loadConstituenciesDropdown() {
+function loadConstituenciesDropdown(restoreSavedSelection = false) {
 
     const districtName = document.getElementById("districtSelect").value;
+    const savedConstituency = restoreSavedSelection ? sessionStorage.getItem("adminConstituency") : null;
+    if (districtName) sessionStorage.setItem("adminDistrict", districtName);
+    else sessionStorage.removeItem("adminDistrict");
+    if (!restoreSavedSelection) sessionStorage.removeItem("adminConstituency");
 
     const constituencySelect = document.getElementById("constituencySelect");
 
@@ -171,12 +195,23 @@ function loadConstituenciesDropdown() {
 
     if (!selectedDistrict) return;
 
-    selectedDistrict.constituencies.forEach(c => {
-
-        constituencySelect.innerHTML +=
-            `<option value="${c}">${c}</option>`;
-
+    selectedDistrict.constituencies.forEach((constituency) => {
+        const option = document.createElement("option");
+        option.value = constituency;
+        option.textContent = constituency;
+        constituencySelect.appendChild(option);
     });
+
+    if (restoreSavedSelection && savedConstituency) {
+        const savedValueExists = Array.from(constituencySelect.options)
+            .some((option) => option.value === savedConstituency);
+        if (savedValueExists) {
+            constituencySelect.value = savedConstituency;
+            filterConstituency();
+        } else {
+            sessionStorage.removeItem("adminConstituency");
+        }
+    }
 }
 
 /* ================= FILTER TABLE + LOAD RESULTS ================= */
@@ -184,6 +219,10 @@ function loadConstituenciesDropdown() {
 async function filterConstituency() {
     const district = document.getElementById("districtSelect").value;
     const constituency = document.getElementById("constituencySelect").value;
+    if (district) sessionStorage.setItem("adminDistrict", district);
+    else sessionStorage.removeItem("adminDistrict");
+    if (constituency) sessionStorage.setItem("adminConstituency", constituency);
+    else sessionStorage.removeItem("adminConstituency");
     const resultsPanel = document.getElementById("resultsPanel");
     const resultsEmpty = document.getElementById("resultsEmpty");
 
@@ -719,8 +758,12 @@ document.getElementById("printSummaryBtn").addEventListener("click", printElecti
 document.getElementById("downloadResultsBtn").addEventListener("click", downloadConstituencyCsv);
 
 window.onload = function () {
-    showSection("dashboard");
+    showSection(getSectionFromLocation(), false);
 };
+
+window.addEventListener("popstate", () => {
+    showSection(getSectionFromLocation(), false);
+});
 
 setInterval(function () {
     if (document.getElementById("dashboardSection").style.display !== "none") {
