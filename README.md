@@ -79,7 +79,4 @@ requirements.txt               Python dependencies
 
 Voters upload a fingerprint image. The server processes it and compares its extracted representation with the fingerprint record associated with that voter. This is an educational demonstration, not a substitute for certified biometric hardware or a professionally validated identity-verification system. Use only fingerprint data you have permission to process, and avoid publishing real biometric images or records.
 
-## Screenshots
-
-Screenshots are optional. A few clean screenshots of the sign-in page, voter ballot/fingerprint flow, and administrator dashboard/results can make the GitHub project page easier to understand. Do not include real voter details, fingerprint images, passwords, database connection strings, or other private information.
 
