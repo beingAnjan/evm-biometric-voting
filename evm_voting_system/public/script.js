@@ -39,7 +39,78 @@ async function loadElectionAvailability() {
 }
 
 loadElectionAvailability();
+loadDemoAccess();
 
+
+async function loadDemoAccess() {
+    const panel = document.getElementById("demoAccess");
+    if (!panel) return;
+
+    panel.querySelectorAll("[data-demo-role]").forEach(function (button) {
+        button.addEventListener("click", function () {
+            loginDemo(button.dataset.demoRole, button);
+        });
+    });
+
+    try {
+        const response = await fetch("/demo-status", { cache: "no-store" });
+        const data = await response.json();
+        panel.hidden = !response.ok || data.enabled !== true;
+    } catch (error) {
+        panel.hidden = true;
+    }
+}
+
+async function loginDemo(role, clickedButton) {
+    const panel = document.getElementById("demoAccess");
+    const messageEl = document.getElementById("message");
+    const buttons = panel ? panel.querySelectorAll("[data-demo-role]") : [];
+    buttons.forEach(function (button) { button.disabled = true; });
+    if (messageEl) messageEl.textContent = "Opening the sample " + role + " experience…";
+
+    try {
+        const response = await fetch("/demo-login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ role: role })
+        });
+        const data = await response.json();
+        if (!response.ok || data.demo !== true) {
+            throw new Error(data.message || "Demo access is unavailable.");
+        }
+
+        [
+            "voterLoggedIn", "voterName", "state", "district", "constituency",
+            "voterId", "fingerVerified", "pendingCandidate", "demoMode"
+        ].forEach(function (key) {
+            localStorage.removeItem(key);
+        });
+        sessionStorage.removeItem("adminLoggedIn");
+        sessionStorage.removeItem("adminName");
+        sessionStorage.removeItem("adminDemoMode");
+
+        if (role === "voter") {
+            localStorage.setItem("voterLoggedIn", "true");
+            localStorage.setItem("voterName", data.name);
+            localStorage.setItem("state", data.state);
+            localStorage.setItem("district", data.district);
+            localStorage.setItem("constituency", data.constituency);
+            localStorage.setItem("voterId", data.voterId);
+            localStorage.setItem("fingerVerified", "true");
+            localStorage.setItem("demoMode", "true");
+            window.location.replace("voterPanel.html");
+            return;
+        }
+
+        sessionStorage.setItem("adminLoggedIn", "true");
+        sessionStorage.setItem("adminName", data.name);
+        sessionStorage.setItem("adminDemoMode", "true");
+        window.location.replace("adminPanel.html");
+    } catch (error) {
+        if (messageEl) messageEl.textContent = error.message || "Could not open the demo.";
+        buttons.forEach(function (button) { button.disabled = false; });
+    }
+}
 
 async function login(event) {
 
