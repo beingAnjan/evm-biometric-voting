@@ -75,6 +75,18 @@ vercel.json                    Vercel deployment configuration
 requirements.txt               Python dependencies
 ```
 
+## One-click demo access
+
+The sign-in page can show **Try voter experience** and **Try admin dashboard** buttons when the optional demo mode is enabled. These buttons do not expose or hard-code account passwords.
+
+To enable the demo, set this Vercel environment variable:
+
+```text
+ENABLE_DEMO_MODE=true
+```
+
+Then redeploy. The app creates fictional sample records in a separate MongoDB database named `evm_voting_demo_db`; the normal election collections stay in `evm_voting_db`. The MongoDB account in `MONGO_URI` must be allowed to read and write that demo database. Demo voter sessions use generated sample accounts, demo votes remain in that database, and fingerprint verification is clearly labeled as simulated. Turn the feature off by removing the variable or setting it to `false`, then redeploy.
+
 ## Fingerprint verification note
 
 Voters upload a fingerprint image. The server processes it and compares its extracted representation with the fingerprint record associated with that voter. This is an educational demonstration, not a substitute for certified biometric hardware or a professionally validated identity-verification system. Use only fingerprint data you have permission to process, and avoid publishing real biometric images or records.

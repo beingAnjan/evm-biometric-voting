@@ -1,11 +1,15 @@
 from flask import Flask, request, jsonify, send_file, send_from_directory, session
 from datetime import datetime, timezone
 
-from db import voters_col, admins_col, candidates_col, votes_col, elections_col
+from db import (
+    voters_col, admins_col, candidates_col, votes_col, elections_col,
+    demo_mode_enabled, ensure_demo_data,
+)
 from fingerprint_pipeline import bmp_to_json
 from fingerprint_matcher import match_fingerprints
 import os
 import tempfile
+from uuid import uuid4
 
 # Tell Flask to use the "public" folder
 app = Flask(__name__)
@@ -61,6 +65,66 @@ def home():
 @app.route("/<path:filename>")
 def public_files(filename):
     return send_from_directory(PUBLIC_DIR, filename)
+
+@app.route("/demo-status", methods=["GET"])
+def get_demo_status():
+    return jsonify({"enabled": demo_mode_enabled()})
+
+
+@app.route("/demo-login", methods=["POST"])
+def demo_login():
+    if not demo_mode_enabled():
+        return jsonify({"message": "Demo access is not enabled."}), 404
+
+    data = request.get_json(silent=True)
+    role = data.get("role") if isinstance(data, dict) else None
+    if role not in {"voter", "admin"}:
+        return jsonify({"message": "Choose a valid demo role."}), 400
+
+    try:
+        ensure_demo_data()
+        session.clear()
+        session["demo_mode"] = True
+
+        if role == "admin":
+            session["role"] = "admin"
+            session["adminId"] = "DEMO-ADMIN"
+            return jsonify({
+                "message": "Demo administrator access ready",
+                "role": "admin",
+                "name": "Demo Administrator",
+                "demo": True,
+            })
+
+        voter_id = "DEMO-VOTER-" + uuid4().hex[:10].upper()
+        voter = {
+            "voterId": voter_id,
+            "name": "Sample Voter",
+            "state": "Andhra Pradesh",
+            "district": "YSR Kadapa",
+            "constituency": "Kadapa",
+            "hasVoted": False,
+        }
+        voters_col.insert_one(voter)
+        session["role"] = "voter"
+        session["voterId"] = voter_id
+        # Demo mode clearly simulates the biometric step; no fingerprint is collected.
+        session["fingerprint_verified"] = True
+        return jsonify({
+            "message": "Demo voter access ready",
+            "role": "voter",
+            "name": voter["name"],
+            "voterId": voter_id,
+            "state": voter["state"],
+            "district": voter["district"],
+            "constituency": voter["constituency"],
+            "demo": True,
+        })
+    except Exception:
+        session.clear()
+        app.logger.exception("Unable to start isolated demo session")
+        return jsonify({"message": "Demo access is temporarily unavailable."}), 503
+
 
 @app.route("/test-db")
 def test_db():

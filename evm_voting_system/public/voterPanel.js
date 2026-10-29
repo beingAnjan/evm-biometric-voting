@@ -1,3 +1,23 @@
+function addDemoNotice(message) {
+    const main = document.querySelector("main");
+    if (!main || document.getElementById("demoModeNotice")) return;
+    const banner = document.createElement("aside");
+    banner.id = "demoModeNotice";
+    banner.setAttribute("role", "status");
+    banner.textContent = message;
+    Object.assign(banner.style, {
+        margin: "12px auto",
+        padding: "12px 16px",
+        maxWidth: "1100px",
+        border: "1px solid #c8d2ff",
+        borderRadius: "12px",
+        color: "#3446a8",
+        background: "#eef1ff",
+        font: "600 13px/1.5 'DM Sans', sans-serif"
+    });
+    main.prepend(banner);
+}
+
 let selectedCandidate = null;
 let candidateById = new Map();
 let electionIsOpen = false;
@@ -8,6 +28,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (localStorage.getItem("voterLoggedIn") !== "true") {
         window.location.replace("page.html");
         return;
+    }
+
+    if (localStorage.getItem("demoMode") === "true") {
+        addDemoNotice("DEMO MODE — fictional sample data only. Fingerprint verification is simulated, and any vote is stored only in the isolated demo database.");
     }
 
     const voterName = localStorage.getItem("voterName") || "Voter";
@@ -56,11 +80,13 @@ function updateClock() {
 function logout() {
     [
         "voterLoggedIn", "voterName", "state", "district", "constituency",
-        "voterId", "fingerVerified", "pendingCandidate"
+        "voterId", "fingerVerified", "pendingCandidate", "demoMode"
     ].forEach(function (key) {
         localStorage.removeItem(key);
     });
-    window.location.replace("page.html");
+    fetch("/logout", { method: "POST", keepalive: true }).finally(function () {
+        window.location.replace("page.html");
+    });
 }
 
 async function loadElectionStatus() {
