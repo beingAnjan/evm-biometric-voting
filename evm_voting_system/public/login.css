@@ -115,3 +115,21 @@ body {
     .step-list li { border-radius: 12px; }
     .login-card { border-radius: 18px; }
 }
+
+
+/* Optional portfolio demo access */
+.demo-access { margin-top: 20px; padding: 17px; border: 1px solid #dbe2f2; border-radius: 15px; background: #f8f9ff; }
+.demo-access[hidden] { display: none !important; }
+.demo-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.demo-heading .eyebrow { margin: 0 0 4px; color: #68789d; font-size: 9px; letter-spacing: 1.3px; }
+.demo-heading h3 { margin: 0; color: #1a2540; font: 700 16px "Manrope",sans-serif; }
+.demo-pill { padding: 5px 8px; border-radius: 999px; color: #586be2; background: #e9edff; font-size: 9px; font-weight: 700; }
+.demo-copy { margin: 9px 0 12px; color: #697795; font-size: 11px; line-height: 1.5; }
+.demo-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.demo-button { display: flex; justify-content: space-between; align-items: center; gap: 7px; min-height: 39px; padding: 8px 10px; border: 1px solid #586be2; border-radius: 9px; color: #fff; background: #586be2; font: 700 10px "DM Sans",sans-serif; cursor: pointer; }
+.demo-button-secondary { color: #4f62d5; background: #fff; }
+.demo-button:hover:not(:disabled) { transform: translateY(-1px); }
+.demo-button:focus-visible { outline: 3px solid rgba(76,98,232,.25); outline-offset: 2px; }
+.demo-button:disabled { opacity: .65; cursor: wait; }
+.demo-note { margin: 10px 0 0; color: #8792aa; font-size: 9px; line-height: 1.4; }
+@media (max-width: 480px) { .demo-access { padding: 14px; } .demo-actions { grid-template-columns: 1fr; } }
