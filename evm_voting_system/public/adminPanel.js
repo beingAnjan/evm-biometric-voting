@@ -3,7 +3,31 @@ if (sessionStorage.getItem("adminLoggedIn") !== "true") {
     window.location.replace("page.html");
 }
 
+function addDemoNotice(message) {
+    const main = document.querySelector("main");
+    if (!main || document.getElementById("demoModeNotice")) return;
+    const banner = document.createElement("aside");
+    banner.id = "demoModeNotice";
+    banner.setAttribute("role", "status");
+    banner.textContent = message;
+    Object.assign(banner.style, {
+        margin: "12px auto",
+        padding: "12px 16px",
+        maxWidth: "1100px",
+        border: "1px solid #c8d2ff",
+        borderRadius: "12px",
+        color: "#3446a8",
+        background: "#eef1ff",
+        font: "600 13px/1.5 'DM Sans', sans-serif"
+    });
+    main.prepend(banner);
+}
+
 /* ================= GLOBAL DATA ================= */
+
+if (sessionStorage.getItem("adminDemoMode") === "true") {
+    addDemoNotice("DEMO MODE — sample records only. Changes made in this administrator panel stay in the isolated demo database.");
+}
 
 let electionData = [];
 let currentConstituencyResults = null;
@@ -744,6 +768,7 @@ function createReportMessage(message) {
 function logout() {
 
     sessionStorage.removeItem("adminLoggedIn");
+    sessionStorage.removeItem("adminDemoMode");
     fetch("/logout", { method: "POST" }).finally(() => {
         window.location.replace("page.html");
     });
