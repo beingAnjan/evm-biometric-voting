@@ -84,7 +84,9 @@ function logout() {
     ].forEach(function (key) {
         localStorage.removeItem(key);
     });
-    window.location.replace("page.html");
+    fetch("/logout", { method: "POST", keepalive: true }).finally(function () {
+        window.location.replace("page.html");
+    });
 }
 
 async function loadElectionStatus() {
