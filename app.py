@@ -114,6 +114,7 @@ def demo_login():
             "message": "Demo voter access ready",
             "role": "voter",
             "name": voter["name"],
+            "voterId": voter_id,
             "state": voter["state"],
             "district": voter["district"],
             "constituency": voter["constituency"],
